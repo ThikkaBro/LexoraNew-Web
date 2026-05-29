@@ -15,15 +15,7 @@
             <div class="col-lg-6 mil-up">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 40px; height: 100%;">
                     
-                    <div style="text-align: right;">
-                        <h5 style="font-weight:700; margin-bottom:15px; color:#fff; font-family: Georgia, 'Times New Roman', serif;">Lexora Workspace</h5>
-                        <a href="https://apps.lexoratech.com" target="_blank" 
-                           style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 25px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; color: #fff; text-decoration: none; transition: all 0.3s ease;">
-                            <i class="fas fa-th-large" style="color: #4ade80;"></i> 
-                            <span style="font-weight: 500; letter-spacing: 0.5px;">Launch Workspace</span>
-                            <i class="fas fa-external-link-alt" style="font-size: 0.7em; opacity: 0.6; margin-left: 5px;"></i>
-                        </a>
-                    </div>
+                    
 
                     <div class="footer-column" style="text-align:right;">
                         <h5 style="font-weight:700; margin-bottom:15px; color:#fff; font-family: Georgia, 'Times New Roman', serif;">Follow Us</h5>
