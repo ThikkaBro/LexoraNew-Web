@@ -5,6 +5,7 @@
     <?php
     $pageTitle = "Lexora Tech | Creative Design & Tech Solutions";
     $pageDesc = "Pioneering creative excellence in UI/UX, Web Development, and Digital Marketing. We transform ideas into masterpieces.";
+    $extraCss = '<link rel="stylesheet" href="css/ecosystem.css?v=1.0.1">';
     include "includes/head.php";
     ?>
 </head>
