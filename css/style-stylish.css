@@ -5190,3 +5190,431 @@ footer
 .mil-subscribe-form button i {
   font-size: 24px;
 }
+
+/* -------------------------------------------
+
+lexora ecosystem section
+
+------------------------------------------- */
+@keyframes mil-eco-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-12px) rotate(8deg);
+    opacity: 0.25;
+  }
+}
+
+@keyframes mil-eco-glow-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes mil-eco-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes mil-eco-border-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mil-eco-arrow-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+/* Card base */
+.mil-eco-card {
+  position: relative;
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #D2D2D0;
+  min-height: 480px;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+}
+.mil-eco-card:hover {
+  transform: translateY(-8px) scale(1.01);
+}
+
+/* Animated gradient border using pseudo-element */
+.mil-eco-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(205, 81, 47, 0.4),
+    rgba(205, 81, 47, 0.05),
+    rgba(205, 81, 47, 0.2),
+    rgba(205, 81, 47, 0.05)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.mil-eco-card--workspace::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 180, 0, 0.4),
+    rgba(255, 180, 0, 0.05),
+    rgba(255, 180, 0, 0.2),
+    rgba(255, 180, 0, 0.05)
+  );
+}
+.mil-eco-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(205, 81, 47, 0.8),
+    rgba(205, 81, 47, 0.1),
+    rgba(205, 81, 47, 0.5),
+    rgba(205, 81, 47, 0.1)
+  );
+}
+.mil-eco-card--workspace:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 180, 0, 0.8),
+    rgba(255, 180, 0, 0.1),
+    rgba(255, 180, 0, 0.5),
+    rgba(255, 180, 0, 0.1)
+  );
+}
+
+/* Glow effect behind the card */
+.mil-eco-card__glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.mil-eco-card__glow--store {
+  background: radial-gradient(circle, rgba(205, 81, 47, 0.3), transparent 70%);
+  top: -50px;
+  left: -50px;
+}
+.mil-eco-card__glow--workspace {
+  background: radial-gradient(circle, rgba(255, 180, 0, 0.25), transparent 70%);
+  top: -50px;
+  right: -50px;
+}
+.mil-eco-card:hover .mil-eco-card__glow {
+  opacity: 1;
+}
+
+/* Inner content */
+.mil-eco-card__inner {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(155deg, rgba(24, 24, 23, 0.95), rgba(0, 0, 0, 0.98));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 45px 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header with icon and badge */
+.mil-eco-card__header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.mil-eco-card__icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mil-eco-card__icon-wrap--store {
+  background: linear-gradient(135deg, #CD512F, #e8734f);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(205, 81, 47, 0.25);
+}
+.mil-eco-card__icon-wrap--workspace {
+  background: linear-gradient(135deg, #ffb400, #ffc940);
+  color: #0a0a0a;
+  box-shadow: 0 4px 20px rgba(255, 180, 0, 0.25);
+}
+.mil-eco-card:hover .mil-eco-card__icon-wrap {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 8px 30px rgba(205, 81, 47, 0.4);
+}
+.mil-eco-card--workspace:hover .mil-eco-card__icon-wrap {
+  box-shadow: 0 8px 30px rgba(255, 180, 0, 0.4);
+}
+
+.mil-eco-card__badge {
+  font-family: "Outfit", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 30px;
+  background: rgba(205, 81, 47, 0.12);
+  color: #CD512F;
+  border: 1px solid rgba(205, 81, 47, 0.2);
+}
+.mil-eco-card__badge--workspace {
+  background: rgba(255, 180, 0, 0.1);
+  color: #ffb400;
+  border-color: rgba(255, 180, 0, 0.2);
+}
+
+/* Title */
+.mil-eco-card__title {
+  font-family: "Anton", sans-serif;
+  font-size: 38px;
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #D2D2D0;
+  line-height: 110%;
+  margin-bottom: 15px;
+  letter-spacing: -0.5px;
+}
+.mil-eco-card__title span {
+  color: #CD512F;
+}
+.mil-eco-card__title--workspace span {
+  color: #ffb400;
+}
+
+/* Description */
+.mil-eco-card__desc {
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  line-height: 170%;
+  color: rgba(210, 210, 208, 0.55);
+  margin-bottom: 25px;
+  flex-grow: 1;
+}
+
+/* Feature tags */
+.mil-eco-card__features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+.mil-eco-card__feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: rgba(205, 81, 47, 0.06);
+  border: 1px solid rgba(205, 81, 47, 0.12);
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(210, 210, 208, 0.7);
+  transition: all 0.3s ease;
+}
+.mil-eco-card__feature i {
+  font-size: 11px;
+  color: #CD512F;
+}
+.mil-eco-card__feature--workspace {
+  background: rgba(255, 180, 0, 0.05);
+  border-color: rgba(255, 180, 0, 0.1);
+}
+.mil-eco-card__feature--workspace i {
+  color: #ffb400;
+}
+.mil-eco-card:hover .mil-eco-card__feature {
+  background: rgba(205, 81, 47, 0.1);
+  border-color: rgba(205, 81, 47, 0.25);
+}
+.mil-eco-card--workspace:hover .mil-eco-card__feature {
+  background: rgba(255, 180, 0, 0.08);
+  border-color: rgba(255, 180, 0, 0.2);
+}
+
+/* CTA Button */
+.mil-eco-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #CD512F, #e06a3f);
+  color: #fff;
+  border: none;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  align-self: flex-start;
+  box-shadow: 0 4px 25px rgba(205, 81, 47, 0.3);
+}
+.mil-eco-card__cta--workspace {
+  background: linear-gradient(135deg, #ffb400, #ffc940);
+  color: #0a0a0a;
+  box-shadow: 0 4px 25px rgba(255, 180, 0, 0.25);
+}
+.mil-eco-card:hover .mil-eco-card__cta {
+  transform: scale(1.05);
+  box-shadow: 0 8px 35px rgba(205, 81, 47, 0.45);
+}
+.mil-eco-card--workspace:hover .mil-eco-card__cta {
+  box-shadow: 0 8px 35px rgba(255, 180, 0, 0.4);
+}
+.mil-eco-card:hover .mil-eco-card__cta i {
+  animation: mil-eco-arrow-nudge 0.8s ease infinite;
+}
+
+/* Floating icons */
+.mil-eco-card__floats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.mil-eco-float {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(205, 81, 47, 0.06);
+  border: 1px solid rgba(205, 81, 47, 0.1);
+  border-radius: 10px;
+  font-size: 16px;
+  color: rgba(205, 81, 47, 0.3);
+  animation: mil-eco-float 4s ease-in-out infinite;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.mil-eco-float--workspace {
+  background: rgba(255, 180, 0, 0.05);
+  border-color: rgba(255, 180, 0, 0.08);
+  color: rgba(255, 180, 0, 0.25);
+}
+.mil-eco-card:hover .mil-eco-float {
+  opacity: 0.4;
+  color: rgba(205, 81, 47, 0.5);
+}
+.mil-eco-card--workspace:hover .mil-eco-float {
+  color: rgba(255, 180, 0, 0.4);
+}
+
+/* Connector badge */
+.mil-eco-connector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.mil-eco-connector__line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, transparent, rgba(205, 81, 47, 0.5), transparent);
+}
+.mil-eco-connector__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  background: rgba(24, 24, 23, 0.8);
+  border: 1px solid rgba(205, 81, 47, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(210, 210, 208, 0.6);
+}
+.mil-eco-connector__badge i {
+  color: #CD512F;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .mil-eco-card {
+    min-height: auto;
+  }
+  .mil-eco-card__inner {
+    padding: 35px 30px;
+  }
+  .mil-eco-card__title {
+    font-size: 32px;
+  }
+  .mil-eco-card__floats {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .mil-eco-card__inner {
+    padding: 30px 25px;
+  }
+  .mil-eco-card__title {
+    font-size: 28px;
+  }
+  .mil-eco-card__features {
+    gap: 6px;
+  }
+  .mil-eco-card__feature {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  .mil-eco-card__cta {
+    width: 100%;
+    justify-content: center;
+  }
+}

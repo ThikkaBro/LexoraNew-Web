@@ -501,6 +501,138 @@
                         </div>
                         <!-- call to action end -->
 
+                        <!-- lexora ecosystem -->
+                        <div class="mil-p-160-160" id="ecosystem">
+                            <div class="container">
+                                <!-- Section Header -->
+                                <div class="row mil-jcc">
+                                    <div class="col-lg-10 mil-tac">
+                                        <p class="mil-stylized mil-m2 mil-mb60 mil-up">Our Ecosystem</p>
+                                        <h2 class="mil-head1 mil-mb30 mil-up">Beyond <span class="mil-a1">Services</span> — <br>Explore Our <span class="mil-a1">Platforms</span></h2>
+                                        <p class="mil-text-md mil-deco-text mil-mb90 mil-up" style="border-left: none; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto;">From premium tech products to powerful free creator tools — the Lexora ecosystem empowers you to build, create, and grow.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Ecosystem Cards -->
+                                <div class="row mil-jcc" style="gap: 30px;">
+
+                                    <!-- Lexora Store Card -->
+                                    <div class="col-lg-5 mil-up">
+                                        <a href="https://lexoratech.store" target="_blank" class="mil-eco-card mil-eco-card--store" data-no-swup>
+                                            <div class="mil-eco-card__glow mil-eco-card__glow--store"></div>
+                                            <div class="mil-eco-card__inner">
+                                                <div class="mil-eco-card__header">
+                                                    <div class="mil-eco-card__icon-wrap mil-eco-card__icon-wrap--store">
+                                                        <i class="fas fa-shopping-bag"></i>
+                                                    </div>
+                                                    <span class="mil-eco-card__badge">E-Commerce</span>
+                                                </div>
+                                                <h3 class="mil-eco-card__title">Lexora <span>Store</span></h3>
+                                                <p class="mil-eco-card__desc">Shop premium tech accessories, power banks, gaming gear, office supplies & more. Island-wide delivery across Sri Lanka with flash deals daily.</p>
+                                                
+                                                <div class="mil-eco-card__features">
+                                                    <div class="mil-eco-card__feature">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                        <span>Free Shipping 9,999+</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature">
+                                                        <i class="fas fa-tags"></i>
+                                                        <span>Flash Deals</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature">
+                                                        <i class="fas fa-shield-alt"></i>
+                                                        <span>Genuine Products</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature">
+                                                        <i class="fas fa-gift"></i>
+                                                        <span>Gift Cards</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mil-eco-card__cta">
+                                                    <span>Visit Store</span>
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+
+                                            <!-- Floating product icons -->
+                                            <div class="mil-eco-card__floats">
+                                                <div class="mil-eco-float" style="top: 15%; right: 8%; animation-delay: 0s;"><i class="fas fa-headphones"></i></div>
+                                                <div class="mil-eco-float" style="top: 35%; right: 15%; animation-delay: 1.2s;"><i class="fas fa-keyboard"></i></div>
+                                                <div class="mil-eco-float" style="bottom: 30%; right: 5%; animation-delay: 0.6s;"><i class="fas fa-battery-full"></i></div>
+                                                <div class="mil-eco-float" style="bottom: 15%; right: 18%; animation-delay: 1.8s;"><i class="fas fa-mouse-pointer"></i></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!-- Lexora Workspace Card -->
+                                    <div class="col-lg-5 mil-up">
+                                        <a href="https://apps.lexoratech.com" target="_blank" class="mil-eco-card mil-eco-card--workspace" data-no-swup>
+                                            <div class="mil-eco-card__glow mil-eco-card__glow--workspace"></div>
+                                            <div class="mil-eco-card__inner">
+                                                <div class="mil-eco-card__header">
+                                                    <div class="mil-eco-card__icon-wrap mil-eco-card__icon-wrap--workspace">
+                                                        <i class="fas fa-th-large"></i>
+                                                    </div>
+                                                    <span class="mil-eco-card__badge mil-eco-card__badge--workspace">Free Tools</span>
+                                                </div>
+                                                <h3 class="mil-eco-card__title mil-eco-card__title--workspace">Lexora <span>Workspace</span></h3>
+                                                <p class="mil-eco-card__desc">30+ free browser-based tools for creators & developers. Screen recording, image editing, PDF utilities, code formatter, resume builder & more — all running locally.</p>
+                                                
+                                                <div class="mil-eco-card__features">
+                                                    <div class="mil-eco-card__feature mil-eco-card__feature--workspace">
+                                                        <i class="fas fa-magic"></i>
+                                                        <span>AI-Powered</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature mil-eco-card__feature--workspace">
+                                                        <i class="fas fa-lock"></i>
+                                                        <span>Privacy First</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature mil-eco-card__feature--workspace">
+                                                        <i class="fas fa-bolt"></i>
+                                                        <span>No Sign-up</span>
+                                                    </div>
+                                                    <div class="mil-eco-card__feature mil-eco-card__feature--workspace">
+                                                        <i class="fas fa-infinity"></i>
+                                                        <span>100% Free</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mil-eco-card__cta mil-eco-card__cta--workspace">
+                                                    <span>Launch Workspace</span>
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+
+                                            <!-- Floating tool icons -->
+                                            <div class="mil-eco-card__floats">
+                                                <div class="mil-eco-float mil-eco-float--workspace" style="top: 15%; right: 8%; animation-delay: 0s;"><i class="fas fa-image"></i></div>
+                                                <div class="mil-eco-float mil-eco-float--workspace" style="top: 35%; right: 15%; animation-delay: 1.2s;"><i class="fas fa-code"></i></div>
+                                                <div class="mil-eco-float mil-eco-float--workspace" style="bottom: 30%; right: 5%; animation-delay: 0.6s;"><i class="fas fa-file-pdf"></i></div>
+                                                <div class="mil-eco-float mil-eco-float--workspace" style="bottom: 15%; right: 18%; animation-delay: 1.8s;"><i class="fas fa-video"></i></div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                                <!-- Bottom connector line -->
+                                <div class="row mil-jcc" style="margin-top: 60px;">
+                                    <div class="col-lg-8 mil-tac mil-up">
+                                        <div class="mil-eco-connector">
+                                            <div class="mil-eco-connector__line"></div>
+                                            <div class="mil-eco-connector__badge">
+                                                <i class="fas fa-layer-group"></i>
+                                                <span>One Brand. Infinite Possibilities.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- lexora ecosystem end -->
+
                         <!-- blog -->
                         <!-- <div class="mil-p-0-160" id="blog">
                         <div class="container">
