@@ -4,8 +4,14 @@
     {
       "name": "lexoratech-nextjs",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "nextjs-app"],
+      "runtimeArgs": ["run", "dev"],
       "port": 3000
+    },
+    {
+      "name": "lexoratech-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start", "--", "--port", "3001"],
+      "port": 3001
     }
   ]
 }
