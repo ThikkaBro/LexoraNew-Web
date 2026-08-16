@@ -65,7 +65,7 @@ export const siteConfig = {
   // ── Nav ───────────────────────────────────────────────────────────────────
   nav: [
     { label: "Work", href: "#work" },
-    { label: "Services", href: "#services" },
+    { label: "Why us", href: "#why-us" },
     { label: "Process", href: "#process" },
     { label: "About", href: "#about" },
   ],
@@ -115,6 +115,8 @@ export const siteConfig = {
     title: "The 5-Day Build",
     price: "$1,500",
     priceNote: "fixed price",
+    /** Numeric form of `price`, used by the cost calculator. Keep in sync. */
+    priceValue: 1500,
     description:
       "We map your top three manual workflows, pick the one with the highest hours-saved-per-week, and ship it as working software in five working days.",
     bullets: [
@@ -140,6 +142,79 @@ export const siteConfig = {
   //
   // `image` — a file in /public/work, or "" to render the placeholder panel.
   // `href`  — optional live URL. Omit if the site is offline.
+  // ── Cost calculator ───────────────────────────────────────────────────────
+  // Sits between the problem and the offer: the visitor quantifies their own
+  // pain, then meets the price. Their own number is far more persuasive than
+  // any number we could assert.
+  calculator: {
+    eyebrow: "Do the math",
+    heading: "What is that manual work already costing you?",
+    standfirst:
+      "Move the sliders to your own numbers. No email required, nothing is sent anywhere — the maths runs in your browser.",
+    fields: {
+      hours: { label: "Hours lost per week", min: 1, max: 40, step: 1, initial: 15, suffix: "hrs" },
+      people: { label: "People doing it", min: 1, max: 25, step: 1, initial: 3, suffix: "" },
+      rate: { label: "Fully-loaded hourly cost", min: 15, max: 150, step: 5, initial: 40, prefix: "$" },
+    },
+    resultLabel: "That work costs you roughly",
+    resultSuffix: "a year",
+    // Deliberately conservative: we claim half the time back, not all of it.
+    paybackLead: "Automate even half of it and",
+    paybackTail: "pays for itself in",
+    cta: "Book a 30-min call",
+    // Honest framing. Never let this read as a promise.
+    disclaimer:
+      "A rough estimate, not a quote. Assumes 46 working weeks a year and that automation removes half the task, not all of it.",
+    workingWeeks: 46,
+    workingDays: 230,
+  },
+
+  // ── Why hire us ───────────────────────────────────────────────────────────
+  // The buyer is never choosing between you and nothing. They are choosing
+  // between you, an agency, and a marketplace freelancer. Name the comparison
+  // and win it on structure, not adjectives.
+  whyUs: {
+    eyebrow: "Why hire us",
+    heading: "The difference is structural, not a sales pitch.",
+    standfirst:
+      "You are not choosing between us and nothing. You are choosing between us and an agency or a marketplace contractor — so here is the honest comparison.",
+    columns: { ours: "LexoraTech", theirs: "The usual arrangement" },
+    rows: [
+      {
+        label: "Who writes your code",
+        ours: "The two founders. The person on your kickoff call is the person committing.",
+        theirs: "A rotating junior you never meet, behind an account manager.",
+      },
+      {
+        label: "What you pay",
+        ours: "A fixed number, agreed in writing before anyone starts.",
+        theirs: "An hourly estimate that grows once the work is underway.",
+      },
+      {
+        label: "Time to working software",
+        ours: "Five working days for the first build.",
+        theirs: "Six to twelve weeks, most of it discovery and documents.",
+      },
+      {
+        label: "How you track progress",
+        ours: "A written update at the end of every working day.",
+        theirs: "A status call every other week, if you chase it.",
+      },
+      {
+        label: "Who owns the code",
+        ours: "You do, in your own repository, from the first commit.",
+        theirs: "Handed over at the end — assuming the contract says so.",
+      },
+      {
+        label: "When something breaks after launch",
+        ours: "30 days of fixes included, no hourly billing.",
+        theirs: "A new statement of work, or the contractor has moved on.",
+      },
+    ],
+    footnote:
+      "If a local agency is genuinely the better fit for what you need, we will say so on the call.",
+  },
+
   work: {
     eyebrow: "Selected work",
     // Deliberately count-free so adding a third project needs no copy edit.

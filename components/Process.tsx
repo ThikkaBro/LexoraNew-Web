@@ -12,7 +12,7 @@ export function Process() {
         </SectionHeading>
       </Reveal>
 
-      <ol className="mt-16 grid gap-x-10 gap-y-10 md:grid-cols-4">
+      <ol className="mt-16 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {siteConfig.process.map((step, i) => (
           <Reveal
             as="li"

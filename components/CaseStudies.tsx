@@ -32,8 +32,8 @@ export function CaseStudies() {
               key={study.title}
               className="border-t border-line pt-12 md:pt-16"
             >
-              <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
-                <div className={cn("order-2", imageFirst ? "md:order-2" : "md:order-1")}>
+              <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+                <div className={cn("order-2", imageFirst ? "lg:order-2" : "lg:order-1")}>
                   <p className="t-micro text-faint">{study.client}</p>
                   <h3 className="t-h2 mt-4 max-w-[18ch] text-[1.5rem] sm:text-[1.75rem]">
                     {study.title}
@@ -89,14 +89,14 @@ export function CaseStudies() {
                   )}
                 </div>
 
-                <div className={cn("order-1", imageFirst ? "md:order-1" : "md:order-2")}>
+                <div className={cn("order-1", imageFirst ? "lg:order-1" : "lg:order-2")}>
                   {image ? (
                     <Image
                       src={`/work/${image}`}
                       alt={`${study.title} — screenshot of the live product. ${study.built}`}
                       width={1600}
                       height={1000}
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       className="w-full rounded-2xl border border-line"
                     />
                   ) : (
