@@ -1,8 +1,8 @@
 /**
  * The previous PHP site had 43 URLs in its sitemap, all of them indexed by
- * Google. This single-page site would 404 every one of them, throwing away
- * years of accumulated link equity and leaving a wall of errors in Search
- * Console. These 301s map each old URL to the closest section instead.
+ * Google. This site would 404 every one of them, throwing away years of
+ * accumulated link equity and leaving a wall of errors in Search Console.
+ * These permanent redirects map each old URL to the closest equivalent.
  *
  * Keep them. They cost nothing and they are the difference between carrying
  * your ranking across and starting from zero.
@@ -20,9 +20,9 @@ const legacyRedirects = [
   ["/brand-strategy.php", "/#services"],
   ["/marketing-and-smm.php", "/#services"],
 
-  // Portfolio → selected work. The two old project pages now map to the
-  // matching case study page, so their inbound links land on equivalent
-  // content rather than a generic anchor — that is what preserves ranking.
+  // Portfolio → selected work. The two old project pages map to the matching
+  // case study page, so their inbound links land on equivalent content rather
+  // than a generic anchor — that is what preserves ranking.
   ["/portfolio.php", "/#work"],
   ["/live-demos.php", "/#work"],
   ["/project1.php", "/work/national-child-safeguarding-platform"],
@@ -54,7 +54,7 @@ const nextConfig = {
     return legacyRedirects.map(([source, destination]) => ({
       source,
       destination,
-      permanent: true, // 301 — tells Google to move the ranking signal across
+      permanent: true, // 308 — Google treats this exactly like a 301
     }));
   },
 
@@ -65,6 +65,11 @@ const nextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
           {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
