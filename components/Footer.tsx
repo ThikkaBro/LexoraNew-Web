@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Github, Linkedin } from "lucide-react";
 import { siteConfig } from "@/app/site-config";
 import { Logo } from "./Logo";
@@ -46,11 +47,17 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-12 border-t border-line pt-6">
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.75rem] text-faint">
             © {new Date().getFullYear()} {siteConfig.legalName}. All rights
             reserved.
           </p>
+          <Link
+            href="/privacy"
+            className="rounded-sm text-[0.75rem] text-faint transition-colors duration-150 hover:text-paper"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

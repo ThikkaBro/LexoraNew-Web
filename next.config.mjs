@@ -20,11 +20,13 @@ const legacyRedirects = [
   ["/brand-strategy.php", "/#services"],
   ["/marketing-and-smm.php", "/#services"],
 
-  // Portfolio and the two case studies → selected work
+  // Portfolio → selected work. The two old project pages now map to the
+  // matching case study page, so their inbound links land on equivalent
+  // content rather than a generic anchor — that is what preserves ranking.
   ["/portfolio.php", "/#work"],
   ["/live-demos.php", "/#work"],
-  ["/project1.php", "/#work"],
-  ["/project2.php", "/#work"],
+  ["/project1.php", "/work/national-child-safeguarding-platform"],
+  ["/project2.php", "/work/employee-assistance-program-platform"],
 
   // Company
   ["/about.php", "/#about"],
@@ -38,10 +40,9 @@ const legacyRedirects = [
   ["/blog.php", "/"],
   ["/publication.php", "/"],
 
-  // Legal pages no longer exist. See SETUP.md — if you take on EU/UK clients
-  // you will likely want a real privacy policy back at these paths.
-  ["/privacy-policy.php", "/"],
-  ["/terms-and-conditons.php", "/"],
+  // Legal. The privacy policy has a real equivalent now; terms does not.
+  ["/privacy-policy.php", "/privacy"],
+  ["/terms-and-conditons.php", "/privacy"],
 ];
 
 /** @type {import('next').NextConfig} */

@@ -26,10 +26,20 @@ export const metadata: Metadata = {
   publisher: company,
   referrer: "origin-when-cross-origin",
   formatDetection: { email: false, address: false, telephone: false },
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    /* One English page serving several English-speaking markets. x-default
+       catches everything else so no market gets excluded from the index. */
+    languages: {
+      "x-default": "/",
+      en: "/",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
+    /* Signals to crawlers that this page is intended for these markets too. */
+    alternateLocale: ["en_GB", "en_AU", "en_CA", "en_IE", "en_NZ"],
     url: domain,
     siteName: company,
     title: seo.title,
@@ -100,7 +110,23 @@ const jsonLd = {
         { "@type": "Country", name: "Netherlands" },
       ],
       knowsAbout: [...seo.keywords],
-      sameAs: [siteConfig.social.linkedin, siteConfig.social.github],
+      /* Explicit contact point with the languages and hours a foreign buyer
+         cares about. Also feeds Google's knowledge panel. */
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: siteConfig.email,
+        url: siteConfig.bookingUrl,
+        availableLanguage: ["en", "si"],
+        areaServed: ["US", "GB", "AU", "NL", "CA", "IE", "NZ", "EU"],
+      },
+      sameAs: [
+        siteConfig.social.linkedin,
+        siteConfig.social.github,
+        /* Our own products, so search engines connect the three domains
+           in both directions rather than only via `owns`. */
+        ...siteConfig.products.map((p) => p.url),
+      ],
       founder: siteConfig.about.team.map((p) => ({
         "@type": "Person",
         name: p.name,
@@ -131,6 +157,24 @@ const jsonLd = {
           },
         })),
       },
+      /* Our own products, declared as owned SoftwareApplications. This is what
+         ties lexoratech.com, apps.lexoratech.com and nimithi.com together as
+         one entity for search engines instead of three unrelated domains. */
+      owns: siteConfig.products.map((p) => ({
+        "@type": "SoftwareApplication",
+        name: p.name,
+        description: p.description,
+        url: p.url,
+        applicationCategory: p.category,
+        operatingSystem: "Web browser",
+        author: { "@id": orgId },
+        publisher: { "@id": orgId },
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+      })),
     },
     {
       "@type": "WebSite",

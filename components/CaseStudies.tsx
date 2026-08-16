@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/app/site-config";
 import {
@@ -35,8 +36,15 @@ export function CaseStudies() {
               <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
                 <div className={cn("order-2", imageFirst ? "lg:order-2" : "lg:order-1")}>
                   <p className="t-micro text-faint">{study.client}</p>
+                  {/* The heading links to the project's own page — this is the
+                      internal link that gets those pages crawled and ranked. */}
                   <h3 className="t-h2 mt-4 max-w-[18ch] text-[1.5rem] sm:text-[1.75rem]">
-                    {study.title}
+                    <Link
+                      href={`/work/${study.slug}`}
+                      className="rounded-sm decoration-line-strong underline-offset-[6px] transition-colors duration-150 hover:underline"
+                    >
+                      {study.title}
+                    </Link>
                   </h3>
 
                   <dl className="mt-7 space-y-5">
@@ -72,33 +80,45 @@ export function CaseStudies() {
                     ))}
                   </ul>
 
-                  {href && (
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-7 inline-flex items-center gap-1.5 rounded-sm text-[0.8125rem] text-paper underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:decoration-paper"
+                  <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <Link
+                      href={`/work/${study.slug}`}
+                      className="inline-flex items-center gap-1.5 rounded-sm text-[0.8125rem] text-paper underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:decoration-paper"
                     >
-                      Visit the live site
-                      <ArrowUpRight
-                        size={14}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                      />
-                    </a>
-                  )}
+                      Read the case study
+                    </Link>
+                    {href && (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-sm text-[0.8125rem] text-muted transition-colors duration-150 hover:text-paper"
+                      >
+                        Visit the live site
+                        <ArrowUpRight
+                          size={14}
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
                 <div className={cn("order-1", imageFirst ? "lg:order-1" : "lg:order-2")}>
                   {image ? (
-                    <Image
-                      src={`/work/${image}`}
-                      alt={`${study.title} — screenshot of the live product. ${study.built}`}
-                      width={1600}
-                      height={1000}
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="w-full rounded-2xl border border-line"
-                    />
+                    /* Fixed 16:10 box + object-cover, so screenshots of any
+                       source ratio sit flush with each other and with the
+                       placeholder panel. Drop in a new capture at any size. */
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line">
+                      <Image
+                        src={`/work/${image}`}
+                        alt={`${study.title} — screenshot of the live product. ${study.built}`}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-cover"
+                      />
+                    </div>
                   ) : (
                     <ScreenshotPlaceholder
                       filename={`${study.client.split(" · ")[0].toLowerCase().replace(/\s+/g, "-")}.png`}

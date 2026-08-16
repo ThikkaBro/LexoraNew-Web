@@ -147,7 +147,7 @@ Should return `location: /#work`.
 
 ---
 
-## 6. Tell Google — 10 min, same day as launch
+## 6. Tell Google — 15 min, same day as launch
 
 Your old site had **43 indexed URLs**. I added 308 permanent redirects for all
 of them (`next.config.mjs`), so the ranking signal transfers instead of
@@ -157,9 +157,57 @@ In [Search Console](https://search.google.com/search-console) — you're already
 verified, so this is quick:
 
 1. **Sitemaps** → submit `https://lexoratech.com/sitemap.xml`.
-2. **URL Inspection** → paste `https://lexoratech.com/` → **Request indexing**.
-3. Check **Pages** a week later. Some old URLs showing "Page with redirect" is
+2. **URL Inspection** → **Request indexing** for each of the six URLs
+   individually. Do not just submit the homepage — the case study pages are
+   the ones that give you more than one shot at ranking:
+   - `/`
+   - `/work/employee-assistance-program-platform`
+   - `/work/browser-based-creator-tool-suite`
+   - `/work/vedic-astrology-platform-sinhala`
+   - `/work/national-child-safeguarding-platform`
+   - `/privacy`
+3. Check **Pages** a week later. Old URLs showing "Page with redirect" is
    correct and expected — that's the redirects working.
+4. Add the same property to [Bing Webmaster Tools](https://www.bing.com/webmasters)
+   and import from Search Console. Bing feeds ChatGPT search, which is a real
+   referral source now and almost nobody in your market has bothered.
+
+---
+
+## 6b. Off-page SEO — the half that code cannot do
+
+Everything in the repo is done: six indexable pages, unique titles and
+descriptions, a full structured-data graph, redirects, sitemap, hreflang.
+**That gets you eligible to rank. It does not get you ranked.**
+
+Ranking for something like "AI automation agency" globally is won on authority
+and content over months, not on markup. Honest expectations: the branded and
+long-tail terms ("LexoraTech", "Employee Assistance Program platform
+developer") can land within weeks. The competitive head terms take six months
+or more of consistent output, or they don't happen.
+
+In rough order of return:
+
+- [ ] **Google Business Profile.** Free, and it is the single strongest signal
+      for "software development company Colombo" style searches. Your NAP
+      (name, address, phone) must match the site exactly.
+- [ ] **Link the three domains together.** `nimithi.com` and
+      `apps.lexoratech.com` should each link back to `lexoratech.com` in their
+      footers. The JSON-LD already declares the relationship in one direction;
+      real links close the loop and pass authority to the studio.
+- [ ] **Clutch, GoodFirms, DesignRush.** Directory profiles for dev studios.
+      Tedious, genuinely effective for foreign buyers, and they rank for
+      "top development companies" queries you never will.
+- [ ] **LinkedIn company page**, posting the case studies as articles with a
+      link back. You already have the page; it is currently doing nothing.
+- [ ] **Write about what you actually built.** One technical post per project
+      — how the anonymous booking worked, why you used Swiss Ephemeris rather
+      than an API. This is the only durable way to rank for the long tail, and
+      it is the thing you can do that agencies cannot fake.
+- [ ] **Ask both clients for a written testimonial.** Once you have real ones,
+      they can go on the site with `Review` schema. Do not add review markup
+      before you have genuine reviews — fabricated ones are a manual-action
+      penalty, not a grey area.
 
 Then update the link on both social profiles you already have:
 
@@ -170,16 +218,19 @@ Then update the link on both social profiles you already have:
 
 ## 7. Worth deciding soon (not launch blockers)
 
-**A privacy policy.** Your old site had one at `/privacy-policy.php`; the new
-site doesn't, so that URL now redirects to the homepage. The new site collects
-nothing directly — no forms, just an email link and an outbound booking link —
-but Cal.com collects names and emails on your behalf. If you're selling into
-the **UK or EU, GDPR applies to you as the data controller.** Buyers there
-sometimes check. Worth adding a real one back at `/privacy` before you push
-hard into those markets.
+**Have the privacy policy reviewed.** There is a real one at `/privacy` now,
+and `/privacy-policy.php` redirects to it. I wrote it to describe what the site
+actually does today: no cookies, no analytics, no forms, one outbound booking
+link. **It is not legal advice, and it stops being accurate the moment you add
+analytics, a form, or a chat widget.** If you sell into the UK or EU you are
+the data controller — worth a lawyer's hour.
 
-**A third case study.** The section heading is deliberately count-free, so
-adding one needs no copy change — just a new entry in `caseStudies`.
+**No terms page.** `/terms-and-conditons.php` redirects to `/privacy` as a
+stopgap, not a real answer. Write proper terms when you have time.
+
+**Another case study.** Each project now gets its own indexable page
+automatically — add an entry to `caseStudies` with a `slug` and the page,
+sitemap entry and internal links all generate themselves.
 
 **Real screenshots.** The Magaharunupaadama card uses a placeholder panel. The
 README has the exact headless-Chrome command to capture a new one at the right

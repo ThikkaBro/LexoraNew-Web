@@ -142,6 +142,27 @@ export const siteConfig = {
   //
   // `image` — a file in /public/work, or "" to render the placeholder panel.
   // `href`  — optional live URL. Omit if the site is offline.
+  // ── Our own products ──────────────────────────────────────────────────────
+  // Feeds the `owns` block of the JSON-LD graph. Declaring these associates
+  // all three domains with one organisation for search engines, so authority
+  // earned on the products reflects back on the studio.
+  products: [
+    {
+      name: "Lexora Workspace",
+      url: "https://apps.lexoratech.com/",
+      category: "DesignApplication",
+      description:
+        "33 free browser-based tools for design, video, audio and development. No install, no account, and files are processed in the browser rather than uploaded.",
+    },
+    {
+      name: "Nimithi",
+      url: "https://nimithi.com",
+      category: "LifestyleApplication",
+      description:
+        "24+ free Vedic astrology tools for Sri Lanka, computed from Swiss Ephemeris planetary data. Bilingual Sinhala and English, no account required.",
+    },
+  ],
+
   // ── Cost calculator ───────────────────────────────────────────────────────
   // Sits between the problem and the offer: the visitor quantifies their own
   // pain, then meets the price. Their own number is far more persuasive than
@@ -217,13 +238,15 @@ export const siteConfig = {
 
   work: {
     eyebrow: "Selected work",
-    // Deliberately count-free so adding a third project needs no copy edit.
-    heading: "Real builds, and what changed because of them.",
+    // Deliberately count-free so adding a project needs no copy edit.
+    heading: "Client work, and the products we build for ourselves.",
   },
   caseStudies: [
     {
       // `title` is the card's H3 — keep it descriptive, it carries SEO weight.
       title: "Sri Lanka’s first Employee Assistance Program platform",
+      /** URL segment for this project's own indexable page. */
+      slug: "employee-assistance-program-platform",
       client: "Inner Mental Wellness · corporate mental health",
       problem:
         "Workplace mental health support was fragmented. Companies had no private, central way for staff to reach a therapist — and employees would not use anything HR could see.",
@@ -236,17 +259,56 @@ export const siteConfig = {
       href: "https://innermentalwellness.com",
     },
     {
-      title: "Child-safety and lesson platform for a Sri Lankan NGO",
-      client: "Magaharunupaadama · child welfare initiative",
+      // Our own product. Labelled as such on purpose — claiming it as client
+      // work would be a lie a buyer could check in one click.
+      title: "A 33-tool creator suite that runs entirely in the browser",
+      /** URL segment for this project's own indexable page. */
+      slug: "browser-based-creator-tool-suite",
+      client: "Lexora Workspace · our own product",
       problem:
-        "The initiative ran on fragmented channels and printed handouts. Staff could not publish or correct safety guidance without going back to a developer every time.",
+        "Everyday creator and developer utilities are scattered across dozens of ad-heavy sites, most of which want you to upload your file to their server before they will touch it.",
       built:
-        "A deliberately lightweight PHP platform with a custom CMS, so non-technical staff publish and update safety guidance themselves, in real time, with no developer in the loop.",
+        "One workspace with 33 tools across design, video, audio and developer tooling — whiteboard, device mockups, background removal, image compression, code formatting. The work happens in your browser. No install, no account, nothing uploaded.",
+      resultLabel: "Shipped and live",
+      result: "33 tools, zero install",
+      stack: ["PHP 8.2", "Cloudflare", "Client-side processing"],
+      image: "lexora-workspace.jpg",
+      href: "https://apps.lexoratech.com/",
+    },
+    {
+      title: "Vedic astrology tools built on real ephemeris data, in Sinhala",
+      /** URL segment for this project's own indexable page. */
+      slug: "vedic-astrology-platform-sinhala",
+      client: "Nimithi · our own product",
+      problem:
+        "Astrology online in Sri Lanka meant a choice between paywalled readings and free sites whose numbers came from nowhere in particular — and almost none of it in Sinhala.",
+      built:
+        "Nimithi computes every reading from Swiss Ephemeris planetary data rather than guesswork: daily horoscopes, Rahu Kalaya, Panchanga, compatibility. Bilingual Sinhala and English, 24+ tools, free, no account. Shareable cards give it a route into WhatsApp and Instagram.",
+      resultLabel: "Free tools, both languages",
+      result: "24+ tools, no login",
+      stack: ["Next.js", "Vercel", "Swiss Ephemeris", "Bilingual i18n"],
+      image: "nimithi.jpg",
+      href: "https://nimithi.com",
+    },
+    {
+      title: "The digital home of a national child-safeguarding programme",
+      /** URL segment for this project's own indexable page. */
+      slug: "national-child-safeguarding-platform",
+      client: "The Missed Lesson · national child-safety programme",
+      // ⚠️ VERIFY: naming the Ministry of Education and the Police Child and
+      // Women Bureau publicly on a commercial page is a stronger credential
+      // than anything else on this site — and exactly the kind of claim that
+      // needs their sign-off. Confirm before launch, or soften to
+      // "a government-backed child-safeguarding programme".
+      problem:
+        "A programme run jointly by the Ministry of Education, the Police Child and Women Bureau, TEAM HERO and the ELPEC Campus was coordinating through fragmented channels and printed handouts. Staff could not publish or correct safety guidance without going back to a developer.",
+      built:
+        "A deliberately lightweight PHP platform with a custom CMS, so non-technical staff publish and update safeguarding guidance themselves, in real time, with no developer in the loop.",
       resultLabel: "Brief to live",
       result: "12 days",
       stack: ["PHP 8", "MySQL", "Bootstrap 5", "jQuery"],
-      // magaharunupaadama.com no longer resolves — no screenshot, no live link.
-      image: "",
+      // The domain no longer resolves, so there is no live link to offer.
+      image: "missed-lesson.jpg",
       href: "",
     },
   ],
