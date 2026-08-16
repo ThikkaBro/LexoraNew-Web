@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { siteConfig } from "@/app/site-config";
 import { Eyebrow, Section, SectionHeading } from "./ui";
 import { Reveal } from "./Reveal";
@@ -9,34 +9,31 @@ import { Reveal } from "./Reveal";
  */
 export function Faq() {
   return (
-    <Section id="faq" label="Frequently asked questions">
-      <div className="grid gap-12 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-16">
+    <Section id="faq" labelledBy="faq-heading">
+      <div className="grid gap-10 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-16">
         <Reveal>
           <div className="md:sticky md:top-28">
             <Eyebrow>Questions</Eyebrow>
-            <SectionHeading className="text-2xl sm:text-3xl md:text-4xl">
+            <SectionHeading id="faq-heading" className="text-[1.5rem] sm:text-[1.75rem]">
               The things buyers actually ask us.
             </SectionHeading>
           </div>
         </Reveal>
 
         <Reveal index={1}>
-          <div className="border-t border-hairline">
+          <div className="border-t border-line">
             {siteConfig.faq.map((item) => (
-              <details
-                key={item.q}
-                className="group border-b border-hairline"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-[1.0625rem] font-medium text-paper transition-colors duration-150 hover:text-white [&::-webkit-details-marker]:hidden">
+              <details key={item.q} className="group border-b border-line">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-left text-[0.9375rem] font-medium tracking-[-0.012em] text-paper transition-colors duration-150 hover:text-white [&::-webkit-details-marker]:hidden">
                   {item.q}
-                  <ChevronDown
-                    size={18}
+                  <Plus
+                    size={16}
                     strokeWidth={1.5}
                     aria-hidden="true"
-                    className="shrink-0 text-muted transition-transform duration-150 group-open:rotate-180"
+                    className="mt-0.5 shrink-0 text-faint transition-transform duration-200 group-open:rotate-45"
                   />
                 </summary>
-                <p className="max-w-prose pb-7 pr-8 text-[0.95rem] leading-[1.65] text-muted">
+                <p className="t-small max-w-prose pb-6 pr-10 text-muted">
                   {item.a}
                 </p>
               </details>

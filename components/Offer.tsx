@@ -7,60 +7,50 @@ export function Offer() {
   const { offer } = siteConfig;
 
   return (
-    <Section id="offer" label="Our entry offer" className="py-12 md:py-20">
+    <Section id="offer" labelledBy="offer-heading">
       <Reveal>
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded border border-accent/25 bg-surface p-8 sm:p-12">
-          {/* A single soft wash so this card reads as the most important block. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(125,211,160,0.12),transparent_70%)]"
-          />
+        <div className="lit-edge mx-auto max-w-3xl rounded-2xl border border-line-strong bg-surface">
+          <div className="border-b border-line px-7 py-7 sm:px-10 sm:py-9">
+            <p className="t-micro text-accent">{offer.label}</p>
 
-          <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-              {offer.label}
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-              <h2 className="heading-tight text-3xl sm:text-4xl">
+            <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+              <h2 id="offer-heading" className="t-h2">
                 {offer.title}
               </h2>
-              <p className="text-3xl font-semibold tracking-[-0.03em] text-accent sm:text-4xl">
-                {offer.price}
-                <span className="ml-2 text-sm font-normal tracking-normal text-muted">
-                  {offer.priceNote}
+              <p className="flex items-baseline gap-2">
+                <span className="tabular text-[2.25rem] font-semibold leading-none tracking-[-0.04em]">
+                  {offer.price}
                 </span>
+                <span className="t-small text-muted">{offer.priceNote}</span>
               </p>
             </div>
 
-            <p className="mt-5 max-w-prose text-[1.0625rem] leading-[1.6] text-muted">
+            <p className="t-body mt-5 max-w-prose text-muted">
               {offer.description}
             </p>
+          </div>
 
-            <ul className="mt-8 space-y-3.5">
-              {offer.bullets.map((bullet) => (
-                <li key={bullet} className="flex gap-3">
-                  <Check
-                    size={18}
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                    className="mt-0.5 shrink-0 text-accent"
-                  />
-                  <span className="text-[0.95rem] leading-[1.6] text-paper/90">
-                    {bullet}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <ul className="grid gap-3.5 px-7 py-8 sm:px-10">
+            {offer.bullets.map((bullet) => (
+              <li key={bullet} className="flex gap-3">
+                <Check
+                  size={16}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                  className="mt-1 shrink-0 text-paper"
+                />
+                <span className="t-small text-paper/85">{bullet}</span>
+              </li>
+            ))}
+          </ul>
 
-            <div className="mt-9 flex flex-col gap-4 border-t border-hairline pt-8 sm:flex-row sm:items-center sm:justify-between">
-              <ButtonLink href={siteConfig.calendly} size="lg" external>
-                {offer.cta}
-              </ButtonLink>
-              <p className="max-w-[34ch] text-sm leading-relaxed text-muted">
-                {offer.guarantee}
-              </p>
-            </div>
+          <div className="flex flex-col gap-5 border-t border-line px-7 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+            <ButtonLink href={siteConfig.bookingUrl} size="lg" external>
+              {offer.cta}
+            </ButtonLink>
+            <p className="max-w-[36ch] text-[0.8125rem] leading-relaxed text-faint">
+              {offer.guarantee}
+            </p>
           </div>
         </div>
       </Reveal>

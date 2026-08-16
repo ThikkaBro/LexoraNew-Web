@@ -8,21 +8,23 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 pb-14 pt-24 sm:px-8"
+      aria-labelledby="hero-heading"
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 pb-16 pt-24 sm:px-8"
     >
-      {/* Faint dot grid, faded out toward the edges. Decorative only. */}
+      {/* Fine dot grid, faded out toward the edges. Decorative, no colour. */}
       <div
         aria-hidden="true"
-        className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black,transparent)]"
+        className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_55%_45%_at_50%_42%,black,transparent)]"
       />
+      {/* A single hairline horizon under the fold, the only other mark. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/3 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(125,211,160,0.09),transparent_65%)] blur-2xl"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent"
       />
 
-      <div className="relative mx-auto w-full max-w-4xl text-center">
+      <div className="relative mx-auto w-full max-w-3xl text-center">
         <Reveal>
-          <p className="inline-flex items-center gap-2 rounded border border-hairline px-3 py-1.5 text-xs text-muted">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-[0.75rem] tracking-[-0.006em] text-muted">
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-full bg-accent"
@@ -32,20 +34,20 @@ export function Hero() {
         </Reveal>
 
         <Reveal index={1}>
-          <h1 className="heading-tight mt-8 text-balance text-[clamp(2.5rem,6vw,5rem)] leading-[1.02]">
+          <h1 id="hero-heading" className="t-display mt-8 text-balance">
             {hero.headline}
           </h1>
         </Reveal>
 
         <Reveal index={2}>
-          <p className="mx-auto mt-7 max-w-[46ch] text-balance text-lg leading-[1.6] text-muted">
+          <p className="t-lead mx-auto mt-7 max-w-[44ch] text-balance text-muted">
             {hero.subhead}
           </p>
         </Reveal>
 
         <Reveal index={3}>
           <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <ButtonLink href={siteConfig.calendly} size="lg" external>
+            <ButtonLink href={siteConfig.bookingUrl} size="lg" external>
               {hero.primaryCta}
             </ButtonLink>
             <ButtonLink href="#work" variant="secondary" size="lg">
@@ -55,9 +57,18 @@ export function Hero() {
         </Reveal>
 
         <Reveal index={4}>
-          <p className="mx-auto mt-10 max-w-[52ch] text-sm leading-relaxed text-muted/80">
-            {hero.trustRow}
-          </p>
+          <ul className="mt-12 flex flex-col items-center justify-center gap-2 text-[0.8125rem] text-faint sm:flex-row sm:gap-0">
+            {hero.trust.map((item, i) => (
+              <li key={item} className="flex items-center">
+                {i > 0 && (
+                  <span aria-hidden="true" className="mx-3 hidden sm:inline">
+                    ·
+                  </span>
+                )}
+                {item}
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
     </section>

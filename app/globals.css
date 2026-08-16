@@ -9,26 +9,80 @@
 
   html {
     scroll-behavior: smooth;
-    /* Sticky nav is 64px; keep anchor targets clear of it. */
-    scroll-padding-top: 96px;
+    /* Sticky nav is 64px tall; keep anchor targets clear of it. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-ink text-paper antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: rgba(125, 211, 160, 0.25);
+    background: rgba(126, 166, 255, 0.22);
   }
 
   :focus-visible {
     @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-ink;
   }
 
-  /* Hairline rule used between sections. */
-  .hairline {
-    border-color: rgba(255, 255, 255, 0.08);
+  /* Numerals should line up in tables of results and step counters. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* ── Type scale ────────────────────────────────────────────────────────── */
+
+  .t-display {
+    font-size: clamp(2.625rem, 5.4vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+  }
+
+  .t-h2 {
+    font-size: clamp(1.625rem, 2.9vw, 2.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.032em;
+    font-weight: 600;
+  }
+
+  .t-h3 {
+    font-size: 1.0625rem;
+    line-height: 1.4;
+    letter-spacing: -0.012em;
+    font-weight: 500;
+  }
+
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    letter-spacing: -0.003em;
+  }
+
+  .t-lead {
+    font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+
+  .t-small {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    letter-spacing: -0.002em;
+  }
+
+  /* Eyebrow / label caps used above section headings. */
+  .t-micro {
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
 }
 
@@ -37,18 +91,22 @@
     text-wrap: balance;
   }
 
-  .heading-tight {
-    letter-spacing: -0.03em;
-    font-weight: 600;
+  .text-pretty {
+    text-wrap: pretty;
   }
 
-  /* Faint dot grid for the hero. Understated, no images, no JS. */
+  /* Very fine dot grid for the hero. No images, no JS. */
   .dot-grid {
     background-image: radial-gradient(
-      rgba(255, 255, 255, 0.07) 1px,
-      transparent 1px
+      rgba(255, 255, 255, 0.055) 0.5px,
+      transparent 0.5px
     );
-    background-size: 32px 32px;
+    background-size: 22px 22px;
+  }
+
+  /* One-pixel top highlight that makes a raised panel read as lit. */
+  .lit-edge {
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
 }
 

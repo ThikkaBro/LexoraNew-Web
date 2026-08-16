@@ -6,52 +6,62 @@ export function cn(...classes: (string | false | undefined | null)[]) {
 
 /* ── Section shell ────────────────────────────────────────────────────────── */
 
+/**
+ * Every section shares one container and one vertical rhythm. `divider` draws
+ * the hairline that separates sections — structure comes from the rules and the
+ * whitespace, not from boxing each block in a card.
+ */
 export function Section({
   id,
   children,
   className,
-  label,
+  labelledBy,
+  divider = true,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
-  label?: string;
+  labelledBy?: string;
+  divider?: boolean;
 }) {
   return (
     <section
       id={id}
-      aria-label={label}
-      className={cn("px-6 py-16 sm:px-8 md:py-32", className)}
+      aria-labelledby={labelledBy}
+      className={cn(divider && "border-t border-line", className)}
     >
-      <div className="mx-auto w-full max-w-6xl">{children}</div>
+      <div className="mx-auto w-full max-w-shell px-6 py-20 sm:px-8 md:py-section">
+        {children}
+      </div>
     </section>
   );
 }
 
+/** Small caps label above a section heading. */
 export function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-muted">
-      {children}
-    </p>
-  );
+  return <p className="t-micro mb-6 text-faint">{children}</p>;
 }
 
 export function SectionHeading({
   children,
+  id,
   className,
 }: {
   children: ReactNode;
+  id?: string;
   className?: string;
 }) {
   return (
-    <h2
-      className={cn(
-        "heading-tight max-w-[22ch] text-3xl leading-[1.1] text-balance sm:text-4xl md:text-[2.75rem]",
-        className,
-      )}
-    >
+    <h2 id={id} className={cn("t-h2 max-w-[20ch] text-balance", className)}>
       {children}
     </h2>
+  );
+}
+
+/** Standfirst paragraph under a section heading. */
+export function Standfirst({ children }: { children: ReactNode }) {
+  return (
+    <p className="t-lead mt-5 max-w-[52ch] text-pretty text-muted">{children}</p>
   );
 }
 
@@ -61,11 +71,16 @@ type ButtonProps = {
   href: string;
   children: ReactNode;
   variant?: "primary" | "secondary";
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
   external?: boolean;
   className?: string;
 };
 
+/**
+ * Primary is near-white on near-black. A single high-contrast surface reads as
+ * more considered than a coloured button, and keeps the one accent free for the
+ * proof numbers.
+ */
 export function ButtonLink({
   href,
   children,
@@ -75,17 +90,18 @@ export function ButtonLink({
   className,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center rounded font-medium transition-colors duration-150 ease-out focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
+    "inline-flex items-center justify-center whitespace-nowrap rounded font-medium tracking-[-0.011em] transition-colors duration-150 ease-out";
 
   const variants = {
-    primary: "bg-accent text-ink hover:bg-[#6bc490]",
+    primary: "bg-paper text-ink hover:bg-white",
     secondary:
-      "border border-hairline bg-transparent text-paper hover:bg-white/[0.06]",
+      "border border-line-strong text-paper hover:border-white/25 hover:bg-white/[0.04]",
   } as const;
 
   const sizes = {
-    md: "px-5 py-2.5 text-sm",
-    lg: "px-7 py-3.5 text-[0.95rem]",
+    sm: "h-9 px-4 text-[0.8125rem]",
+    md: "h-10 px-5 text-sm",
+    lg: "h-12 px-6 text-[0.9375rem]",
   } as const;
 
   return (
@@ -102,7 +118,7 @@ export function ButtonLink({
 /* ── Placeholder screenshot block ─────────────────────────────────────────── */
 
 /**
- * Solid dark block with a hairline border and a centered filename label.
+ * Solid dark panel with a hairline border and a centered filename label.
  * Swap for `next/image` once real screenshots exist — see README.
  */
 export function ScreenshotPlaceholder({
@@ -116,9 +132,9 @@ export function ScreenshotPlaceholder({
     <div
       role="img"
       aria-label={alt}
-      className="dot-grid flex aspect-[16/10] w-full items-center justify-center rounded border border-hairline bg-surface shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)]"
+      className="lit-edge flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-line bg-surface"
     >
-      <span className="rounded border border-hairline bg-ink/70 px-3 py-1.5 font-mono text-[0.7rem] text-muted">
+      <span className="rounded-sm border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-faint">
         {filename}
       </span>
     </div>

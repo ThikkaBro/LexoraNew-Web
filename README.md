@@ -8,23 +8,53 @@ seconds of landing.
 
 ---
 
-## Before you go live — 5 things
+## Before you go live — 4 things
 
 Everything below lives in [`app/site-config.ts`](app/site-config.ts). Search the
 file for `NEEDS_REAL_DATA`.
 
-1. **`calendly`** — swap the placeholder for your real scheduling link, and set
-   your availability to hours that work for US Eastern and UK buyers.
-2. **`caseStudies`** — ⚠️ the three projects shipped in this repo are
-   **illustrative templates, not real clients**. Replace every field with real
-   work and real numbers. A single invented result destroys the credibility of
-   the whole page the first time a buyer asks a follow-up question.
-3. **`about.team[1]`** — real name, role, bio and links for your co-founder.
-4. **Team photos** — drop two real photos in `public/team/`, then set
-   `photo: "/team/your-file.jpg"` on each person. Until then the site renders an
-   initials block, which is honest but converts far worse than a real face.
-5. **`domain` / `email` / `social`** — confirm these are correct. The email is
+1. **`bookingUrl`** — create the real booking link and paste it in. Cal.com is
+   recommended over Calendly: its free tier includes automated reminders and
+   unlimited event types, both of which Calendly puts behind a paid plan, and
+   no-show reduction is the highest-ROI feature here. Set availability to hours
+   that work for US Eastern and UK buyers.
+2. **`caseStudies`** — these are now your **real** projects, recovered from the
+   previous PHP site. Before launch: confirm the published numbers are still
+   accurate, and get written sign-off from both clients on being named. Add a
+   third project when you have one — the heading is count-free, so no copy
+   change is needed.
+3. **`about.team[1].bio`** — replace with Praveen's own line. One concrete,
+   specific detail beats any adjective.
+4. **`domain` / `email` / `social`** — confirm these resolve. The email is
    deliberately shown as plain text in the final CTA and the footer.
+
+**Known issue:** `magaharunupaadama.com` no longer resolves, so that case study
+has no live link and no screenshot. If the site comes back, add the URL to
+`href` and drop a screenshot into `public/work/`.
+
+---
+
+## Brand assets
+
+The "L" mark is drawn as inline SVG geometry in `components/Logo.tsx` — it stays
+sharp at any size, inherits `currentColor` (white on dark, black on light) and
+costs zero network requests. A standalone copy lives at
+`public/brand/lexoratech-mark.svg`, and the same path drives the favicon
+(`app/icon.svg`), the web manifest and the OG card.
+
+**It is a geometric reconstruction, not your original file.** If the curves need
+to match the official artwork exactly, replace the `<path>` in
+`components/Logo.tsx` and `public/brand/lexoratech-mark.svg` with the `d`
+attribute from your source SVG.
+
+The wordmark renders as live text (Inter, tight tracking) rather than an image —
+sharper on every screen, and it scales with the layout. To use your brand
+typeface instead, load it via `next/font/local` in `app/layout.tsx` and point
+`.font-sans` at it.
+
+**The slogan** (`tagline` in the config) appears in the footer lockup only. It is
+deliberately kept out of the hero so it never competes with the H1, which has to
+carry the value proposition.
 
 ---
 
@@ -42,22 +72,27 @@ to change to update text, prices, FAQ items, case studies or team members.
 
 ### Screenshots
 
-Case study images currently render as `ScreenshotPlaceholder` — a dark block
-with a hairline border and the filename. To use real screenshots:
+Set `image` on a case study to a filename in `public/work/` and it renders
+through `next/image`. Leave it as `""` and the card falls back to a placeholder
+panel, so a project with no screenshot still looks deliberate.
 
-1. Put the file in `public/work/`.
-2. In `components/CaseStudies.tsx`, replace `<ScreenshotPlaceholder … />` with
-   `next/image`:
+To capture a new one at the right aspect ratio (16:10), with Chrome installed:
 
-```tsx
-<Image
-  src={`/work/${study.image}`}
-  alt={`…`}
-  width={1280}
-  height={800}
-  className="w-full rounded border border-hairline shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)]"
-/>
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --virtual-time-budget=12000 --window-size=1600,1000 --screenshot=public/work/new-project.png https://example.com
 ```
+
+Then convert it to a lighter JPEG:
+
+```bash
+sips -s format jpeg -s formatOptions 82 public/work/new-project.png --out public/work/new-project.jpg
+```
+
+### Icons
+
+`app/icon.svg`, `app/favicon.ico` and `app/apple-icon.png` are all generated
+from the same L-mark geometry. If you change the mark, regenerate the raster
+pair rather than hand-editing them.
 
 ---
 
@@ -95,8 +130,12 @@ feeds canonical URLs, OpenGraph tags, `sitemap.xml` and `robots.txt`.
 
 ## What's included
 
-- **SEO** — full metadata, OpenGraph and Twitter cards, `ProfessionalService`
-  JSON-LD with an embedded `FAQPage`, generated `sitemap.xml` and `robots.txt`.
+- **SEO** — full metadata, OpenGraph and Twitter cards, and a single JSON-LD
+  `@graph` with cross-referenced `@id`s: `Organization`/`ProfessionalService`
+  (logo, slogan, founders as `Person`, `areaServed`, a 4-item `OfferCatalog` and
+  the `$1,500` `Offer`), `WebSite`, `WebPage` and `FAQPage`. Plus generated
+  `sitemap.xml`, `robots.txt` and `manifest.webmanifest`. Heading outline is one
+  `h1`, section `h2`s, and descriptive keyword-bearing `h3`s on each case study.
 - **OG image** — generated at request time in `app/opengraph-image.tsx`. No
   external assets, no stock photography.
 - **Accessibility** — semantic landmarks, a skip link, visible focus rings,

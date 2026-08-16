@@ -4,22 +4,25 @@ import { Reveal } from "./Reveal";
 
 export function Process() {
   return (
-    <Section id="process" label="How we work">
+    <Section id="process" labelledBy="process-heading">
       <Reveal>
         <Eyebrow>How we work</Eyebrow>
-        <SectionHeading>
+        <SectionHeading id="process-heading">
           You always know the price, the date, and where it stands.
         </SectionHeading>
       </Reveal>
 
-      <ol className="mt-16 grid gap-px overflow-hidden rounded border border-hairline bg-[rgba(255,255,255,0.08)] md:grid-cols-4">
+      <ol className="mt-16 grid gap-x-10 gap-y-10 md:grid-cols-4">
         {siteConfig.process.map((step, i) => (
-          <Reveal as="li" key={step.step} index={i} className="bg-ink p-7">
-            <p className="font-mono text-xs text-accent">{step.step}</p>
-            <h3 className="mt-4 text-lg font-medium tracking-[-0.01em] text-paper">
-              {step.title}
-            </h3>
-            <p className="mt-2.5 text-sm leading-[1.6] text-muted">
+          <Reveal
+            as="li"
+            key={step.step}
+            index={i}
+            className="border-t border-line-strong pt-6"
+          >
+            <p className="tabular t-micro text-faint">{step.step}</p>
+            <h3 className="t-h3 mt-5 text-[1.0625rem]">{step.title}</h3>
+            <p className="mt-2.5 text-[0.8125rem] leading-[1.6] text-muted">
               {step.body}
             </p>
           </Reveal>

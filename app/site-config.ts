@@ -4,32 +4,36 @@
  *  Edit this file only. No JSX changes needed to update the site.
  * ─────────────────────────────────────────────────────────────────────────────
  *
- *  ⚠️  BEFORE YOU GO LIVE — three things in here are PLACEHOLDER and must be
- *      replaced with real information. They are marked with `NEEDS_REAL_DATA`.
+ *  ⚠️  BEFORE YOU GO LIVE — things marked `NEEDS_REAL_DATA` are placeholder:
  *
- *      1. calendly       — swap in your real scheduling link
- *      2. caseStudies    — the three projects below are ILLUSTRATIVE TEMPLATES,
- *                          not real clients. Shipping invented numbers will
- *                          destroy your credibility the first time a buyer asks
- *                          a follow-up question. Replace with real work.
- *      3. team[1]        — the second team member’s real name, bio and links.
- *
- *      Also add two real photos at /public/team/*.jpg (see `photo` fields).
+ *      1. bookingUrl     — create the real booking link and paste it here
+ *      2. caseStudies    — REAL projects now, but VERIFY the published numbers
+ *                          and get both clients' sign-off on being named
+ *      3. team[1].bio    — replace with Praveen's own line
+ *      4. social         — confirm the LinkedIn / GitHub URLs resolve
  */
 
-export const NEEDS_REAL_DATA = true;
-
 export const siteConfig = {
-  // ── Identity ──────────────────────────────────────────────────────────────
-  company: "LEXORATECH",
+  // ── Brand ─────────────────────────────────────────────────────────────────
+  company: "LexoraTech",
+  /** Cased for the logo lockup. The nav renders this next to the L mark. */
+  wordmark: "LexoraTech",
+  /** Brand slogan. Deliberately kept out of the hero so it never competes
+      with the H1, which has to carry the value proposition. */
+  tagline: "Building with Bits",
+  legalName: "LexoraTech",
+  foundingDate: "2023",
+
   domain: "https://lexoratech.com",
   email: "hello@lexoratech.com",
   location: "Colombo, Sri Lanka",
   locationLine: "Colombo, Sri Lanka · Working worldwide",
 
-  // NEEDS_REAL_DATA: replace with your live Calendly (or Cal.com) link.
-  // Set your availability to hours that work for US Eastern and UK buyers.
-  calendly: "https://calendly.com/lexoratech/30min",
+  // NEEDS_REAL_DATA: your live booking link. Recommended: Cal.com — its free
+  // tier includes automated reminders and unlimited event types, both of which
+  // Calendly charges for. Set availability to hours that work for US Eastern
+  // and UK buyers, and put it on your own subdomain once it is live.
+  bookingUrl: "https://cal.com/lexoratech/30min",
 
   social: {
     linkedin: "https://www.linkedin.com/company/lexoratech",
@@ -38,17 +42,24 @@ export const siteConfig = {
 
   // ── SEO ───────────────────────────────────────────────────────────────────
   seo: {
-    title: "LEXORATECH — AI automation and internal tools, built in 5 days",
+    title: "LexoraTech — AI Automation & Internal Tools, Shipped in 5 Days",
+    shortTitle: "LexoraTech",
     description:
-      "A two-person senior development studio. We build custom AI automation and internal tools for agencies and service businesses. Fixed price, fixed date, working software in 5 days.",
+      "LexoraTech is a two-person senior development studio building custom AI automation and internal tools for agencies and service businesses in the US, UK, Europe and Australia. Fixed price, fixed date, working software in five days.",
     keywords: [
-      "AI automation",
-      "internal tools",
-      "workflow automation",
-      "custom software studio",
-      "AI agents for agencies",
-      "recruitment automation",
+      "AI automation agency",
+      "custom internal tools",
+      "workflow automation development",
+      "AI agent development",
+      "software development studio Sri Lanka",
+      "offshore development team",
+      "recruitment automation software",
+      "business process automation",
+      "React and Next.js development studio",
+      "hire senior developers",
     ],
+    /** Used as the OG image subtitle and the schema slogan. */
+    ogSubtitle: "AI automation & internal tools · Fixed price, five days",
   },
 
   // ── Nav ───────────────────────────────────────────────────────────────────
@@ -67,12 +78,16 @@ export const siteConfig = {
       "Custom AI automation and internal tools for agencies and service businesses. Working software in 5 days, not 5 months.",
     primaryCta: "Book a 30-min call",
     secondaryCta: "See our work",
-    trustRow:
-      "Working with teams in 🇺🇸 🇬🇧 🇦🇺 🇳🇱 · 4-hour daily overlap with US Eastern · Fixed prices, no surprises",
+    trust: [
+      "Teams in the US, UK, Australia & NL",
+      "4-hour daily overlap with US Eastern",
+      "Fixed prices, no surprises",
+    ],
   },
 
   // ── 3. Problem ────────────────────────────────────────────────────────────
   problem: {
+    eyebrow: "The problem",
     heading: "Most teams lose 15+ hours a week to work a machine should be doing.",
     body: "Not the interesting work. The copy-paste, the chasing, the re-typing of things that already exist somewhere else.",
     items: [
@@ -96,10 +111,10 @@ export const siteConfig = {
 
   // ── 4. The Offer ──────────────────────────────────────────────────────────
   offer: {
-    label: "START HERE",
+    label: "Start here",
     title: "The 5-Day Build",
     price: "$1,500",
-    priceNote: "fixed",
+    priceNote: "fixed price",
     description:
       "We map your top three manual workflows, pick the one with the highest hours-saved-per-week, and ship it as working software in five working days.",
     bullets: [
@@ -115,42 +130,49 @@ export const siteConfig = {
   },
 
   // ── 5. Case studies ───────────────────────────────────────────────────────
-  // NEEDS_REAL_DATA: These three are ILLUSTRATIVE TEMPLATES showing the shape
-  // of a good case study. Replace every field with real projects and real
-  // numbers before this site goes live. Keep the structure — it works.
+  // These are your REAL projects, recovered from the previous site (commit
+  // 64803bb: project1.php / project2.php).
+  //
+  // ⚠️ VERIFY BEFORE LAUNCH: the numbers below ("50+ organisations", the build
+  // timelines) are your own previously-published claims. Confirm each is still
+  // accurate and that both clients are happy to be named — then they are the
+  // strongest thing on this page. Add a third project when you have one.
+  //
+  // `image` — a file in /public/work, or "" to render the placeholder panel.
+  // `href`  — optional live URL. Omit if the site is offline.
+  work: {
+    eyebrow: "Selected work",
+    // Deliberately count-free so adding a third project needs no copy edit.
+    heading: "Real builds, and what changed because of them.",
+  },
   caseStudies: [
     {
-      client: "UK recruitment agency, 12 staff",
+      // `title` is the card's H3 — keep it descriptive, it carries SEO weight.
+      title: "Sri Lanka’s first Employee Assistance Program platform",
+      client: "Inner Mental Wellness · corporate mental health",
       problem:
-        "Every inbound CV was read by a consultant, tagged by hand, and re-typed into their applicant tracking system. Roughly 200 applications a week.",
+        "Workplace mental health support was fragmented. Companies had no private, central way for staff to reach a therapist — and employees would not use anything HR could see.",
       built:
-        "A screening pipeline that reads each CV, scores it against the live role brief, and writes a ranked shortlist straight into their existing ATS. Consultants review the top ten and nothing else.",
-      resultLabel: "Time to first shortlist",
-      result: "12 hrs/week → 20 minutes",
-      stack: ["Next.js", "OpenAI", "Postgres", "Bullhorn API"],
-      image: "recruitment-screening-dashboard.png",
+        "A platform where employees book therapy anonymously, sessions run securely in the browser, and HR only ever sees aggregated wellness reporting. Stripe handles corporate billing automatically.",
+      resultLabel: "Corporate clients on the platform",
+      result: "50+ organisations",
+      stack: ["Laravel", "Vue.js", "AWS", "Stripe", "MySQL"],
+      image: "eap-platform.jpg",
+      href: "https://innermentalwellness.com",
     },
     {
-      client: "Australian property group, 40 agents",
+      title: "Child-safety and lesson platform for a Sri Lankan NGO",
+      client: "Magaharunupaadama · child welfare initiative",
       problem:
-        "Listing data lived in three places. Agents updated one, someone else updated another, and the public website was reliably two days behind.",
+        "The initiative ran on fragmented channels and printed handouts. Staff could not publish or correct safety guidance without going back to a developer every time.",
       built:
-        "One internal dashboard that owns the listing record and pushes changes everywhere else automatically. Agents update once, from their phone, and the site is current within a minute.",
-      resultLabel: "Listings out of sync",
-      result: "2 days behind → under 60 seconds",
-      stack: ["React Native", "Node", "Supabase", "REA API"],
-      image: "property-listing-sync.png",
-    },
-    {
-      client: "US e-commerce brand, $4M/yr",
-      problem:
-        "Customer service answered the same forty questions all day — where is my order, can I change the size, what is the return window.",
-      built:
-        "A support agent wired into their order system that answers those questions with real order data and hands anything unusual straight to a human with the context attached.",
-      resultLabel: "Tickets needing a human",
-      result: "71% handled without an agent",
-      stack: ["Next.js", "Claude API", "Shopify", "Zendesk"],
-      image: "support-agent-console.png",
+        "A deliberately lightweight PHP platform with a custom CMS, so non-technical staff publish and update safety guidance themselves, in real time, with no developer in the loop.",
+      resultLabel: "Brief to live",
+      result: "12 days",
+      stack: ["PHP 8", "MySQL", "Bootstrap 5", "jQuery"],
+      // magaharunupaadama.com no longer resolves — no screenshot, no live link.
+      image: "",
+      href: "",
     },
   ],
 
@@ -204,15 +226,17 @@ export const siteConfig = {
 
   // ── 8. About ──────────────────────────────────────────────────────────────
   about: {
+    eyebrow: "The studio",
     heading: "Two people. You talk to whoever is writing the code.",
     body: "We’re a two-person studio. No account managers, no handoffs, no team you never meet. The person on your kickoff call is the person shipping your software.",
     team: [
       {
         name: "Theekshana Sudeepa",
-        role: "Co-founder · Engineering",
-        bio: "Ten years building web and mobile products. Spends most of the day in TypeScript and most of the night reading about compilers.",
-        // Add a real photo at public/team/theekshana.jpg, then set photo below.
-        photo: "",
+        role: "Founder, Full-Stack Engineering",
+        // Grounded in the project record. Swap the second sentence for
+        // something only you would say — that line is what people remember.
+        bio: "Full-stack architect on both the Inner Mental Wellness platform and the Missed Lesson system. Writes most of the backend, and would rather delete code than add it.",
+        photo: "/team/theekshana-sudeepa.jpg",
         initials: "TS",
         links: {
           github: "https://github.com/Lexora-Tech",
@@ -220,12 +244,13 @@ export const siteConfig = {
         },
       },
       {
-        // NEEDS_REAL_DATA: real name, role, bio and links for your co-founder.
-        name: "Co-founder Name",
-        role: "Co-founder · Engineering",
-        bio: "One line of real personality here. Something a stranger would remember — not 'passionate about technology'.",
-        photo: "",
-        initials: "CN",
+        name: "Praveen Lakshan",
+        role: "Co-founder, CTO",
+        // NEEDS_REAL_DATA: replace this with Praveen's own line — one concrete,
+        // specific detail beats any adjective.
+        bio: "Runs architecture and infrastructure across the studio’s builds. Cares most about the boring parts that keep systems up at 3am.",
+        photo: "/team/praveen-lakshan.jpg",
+        initials: "PL",
         links: {
           github: "https://github.com/Lexora-Tech",
           linkedin: "https://www.linkedin.com/company/lexoratech",
@@ -267,7 +292,7 @@ export const siteConfig = {
     heading: "Tell us what’s slowing you down.",
     body: "Thirty minutes, no deck, no sales script. If we’re not the right people for it we’ll say so and point you somewhere better.",
     cta: "Book a 30-min call",
-    emailLabel: "Or just email us:",
+    emailLabel: "Or email us directly",
   },
 } as const;
 
