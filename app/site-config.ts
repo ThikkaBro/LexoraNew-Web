@@ -33,7 +33,7 @@ export const siteConfig = {
   // tier includes automated reminders and unlimited event types, both of which
   // Calendly charges for. Set availability to hours that work for US Eastern
   // and UK buyers, and put it on your own subdomain once it is live.
-  bookingUrl: "https://cal.com/lexoratech/30min",
+  bookingUrl: "https://cal.com/lexora-tech/30min",
 
   social: {
     linkedin: "https://www.linkedin.com/company/lexoratech",
