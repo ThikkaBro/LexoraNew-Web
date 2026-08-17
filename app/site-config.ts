@@ -44,8 +44,10 @@ export const siteConfig = {
   seo: {
     title: "LexoraTech — AI Automation & Internal Tools, Shipped in 5 Days",
     shortTitle: "LexoraTech",
+    // Kept under ~160 characters — Google truncates meta descriptions past
+    // roughly that length in search results, usually mid-word.
     description:
-      "LexoraTech is a two-person senior development studio building custom AI automation and internal tools for agencies and service businesses in the US, UK, Europe and Australia. Fixed price, fixed date, working software in five days.",
+      "AI automation and internal tools for agencies and service businesses. Fixed price, fixed date, working software in five days. US, UK, EU, AU.",
     keywords: [
       "AI automation agency",
       "custom internal tools",

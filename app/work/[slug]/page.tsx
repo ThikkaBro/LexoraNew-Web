@@ -23,6 +23,13 @@ type Params = { params: { slug: string } };
 const findStudy = (slug: string) =>
   siteConfig.caseStudies.find((s) => s.slug === slug);
 
+function truncateAtWord(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace)}…`;
+}
+
 export function generateStaticParams() {
   return siteConfig.caseStudies.map((s) => ({ slug: s.slug }));
 }
@@ -32,7 +39,12 @@ export function generateMetadata({ params }: Params): Metadata {
   if (!study) return {};
 
   const url = `${siteConfig.domain}/work/${study.slug}`;
-  const description = `${study.problem} ${study.built}`.slice(0, 300);
+  // Google truncates search-result descriptions past ~155-160 characters,
+  // usually mid-word — cut at the nearest word boundary, not a hard slice.
+  const description = truncateAtWord(study.problem, 155);
+  // Facebook/LinkedIn allow roughly double that before truncating, so the
+  // share card can carry the outcome too, not just the problem.
+  const ogDescription = truncateAtWord(`${study.problem} ${study.built}`, 300);
 
   return {
     title: study.title,
@@ -42,7 +54,7 @@ export function generateMetadata({ params }: Params): Metadata {
       type: "article",
       url,
       title: `${study.title} — ${siteConfig.company}`,
-      description,
+      description: ogDescription,
       siteName: siteConfig.company,
       images: study.image
         ? [{ url: `/work/${study.image}`, width: 1600, height: 1000, alt: study.title }]
