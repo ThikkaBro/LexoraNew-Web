@@ -44,8 +44,10 @@ export const siteConfig = {
   seo: {
     title: "LexoraTech — AI Automation & Internal Tools, Shipped in 5 Days",
     shortTitle: "LexoraTech",
+    // Kept under ~160 characters — Google truncates meta descriptions past
+    // roughly that length in search results, usually mid-word.
     description:
-      "LexoraTech is a two-person senior development studio building custom AI automation and internal tools for agencies and service businesses in the US, UK, Europe and Australia. Fixed price, fixed date, working software in five days.",
+      "AI automation and internal tools for agencies and service businesses. Fixed price, fixed date, working software in five days. US, UK, EU, AU.",
     keywords: [
       "AI automation agency",
       "custom internal tools",
@@ -376,8 +378,9 @@ export const siteConfig = {
         photo: "/team/theekshana-sudeepa.jpg",
         initials: "TS",
         links: {
-          github: "https://github.com/Lexora-Tech",
-          linkedin: "https://www.linkedin.com/in/theekshana-sudeepa",
+          github: "https://github.com/ThikkaBro",
+          linkedin: "https://www.linkedin.com/in/theekshana-sudeepa/",
+          website: "https://thikka.me",
         },
       },
       {
@@ -389,8 +392,9 @@ export const siteConfig = {
         photo: "/team/praveen-lakshan.jpg",
         initials: "PL",
         links: {
-          github: "https://github.com/Lexora-Tech",
-          linkedin: "https://www.linkedin.com/company/lexoratech",
+          github: "https://github.com/PraveenLakshan",
+          linkedin: "https://www.linkedin.com/in/praveenlakshan/",
+          website: "https://praveenlakshan.me",
         },
       },
     ],

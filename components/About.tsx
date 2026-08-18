@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Github, Linkedin } from "lucide-react";
+import { Github, Globe, Linkedin } from "lucide-react";
 import { siteConfig } from "@/app/site-config";
 import { Eyebrow, Section, SectionHeading, Standfirst } from "./ui";
 import { Reveal } from "./Reveal";
@@ -63,6 +63,15 @@ export function About() {
                   className="rounded-sm p-1.5 text-faint transition-colors duration-150 hover:text-paper"
                 >
                   <Linkedin size={16} strokeWidth={1.5} aria-hidden="true" />
+                </a>
+                <a
+                  href={person.links.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${person.name}’s personal site`}
+                  className="rounded-sm p-1.5 text-faint transition-colors duration-150 hover:text-paper"
+                >
+                  <Globe size={16} strokeWidth={1.5} aria-hidden="true" />
                 </a>
               </div>
             </Reveal>
