@@ -133,7 +133,11 @@ const jsonLd = {
         jobTitle: p.role,
         description: p.bio,
         worksFor: { "@id": orgId },
-        sameAs: [p.links.linkedin, p.links.github],
+        /* The personal domain is the canonical page for the person; the
+           profiles alongside it are what let Google resolve them as one
+           entity across sites. */
+        url: p.links.website,
+        sameAs: [p.links.linkedin, p.links.github, p.links.website],
       })),
       makesOffer: {
         "@type": "Offer",

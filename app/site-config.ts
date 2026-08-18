@@ -378,8 +378,9 @@ export const siteConfig = {
         photo: "/team/theekshana-sudeepa.jpg",
         initials: "TS",
         links: {
-          github: "https://github.com/Lexora-Tech",
-          linkedin: "https://www.linkedin.com/in/theekshana-sudeepa",
+          github: "https://github.com/ThikkaBro",
+          linkedin: "https://www.linkedin.com/in/theekshana-sudeepa/",
+          website: "https://thikka.me",
         },
       },
       {
@@ -391,8 +392,9 @@ export const siteConfig = {
         photo: "/team/praveen-lakshan.jpg",
         initials: "PL",
         links: {
-          github: "https://github.com/Lexora-Tech",
-          linkedin: "https://www.linkedin.com/company/lexoratech",
+          github: "https://github.com/PraveenLakshan",
+          linkedin: "https://www.linkedin.com/in/praveenlakshan/",
+          website: "https://praveenlakshan.me",
         },
       },
     ],
