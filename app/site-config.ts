@@ -64,6 +64,21 @@ export const siteConfig = {
     ogSubtitle: "AI automation & internal tools · Fixed price, five days",
   },
 
+  // ── Availability ──────────────────────────────────────────────────────────
+  // Drives the month in the hero pill and the year in the footer, so neither
+  // has to be edited by hand. Requires the `revalidate` export in
+  // app/layout.tsx to keep working after the first build — see lib/site-date.ts.
+  availability: {
+    /** The calendar the business actually works to. */
+    timeZone: "Asia/Colombo",
+    /**
+     * Past this day of the month, the pill advertises the NEXT month instead.
+     * Claiming availability "in August" on the 29th is a promise about two
+     * days. 20 gives roughly a week and a half of runway.
+     */
+    rollToNextMonthAfterDay: 20,
+  },
+
   // ── Nav ───────────────────────────────────────────────────────────────────
   nav: [
     { label: "Work", href: "#work" },
@@ -74,7 +89,9 @@ export const siteConfig = {
 
   // ── 2. Hero ───────────────────────────────────────────────────────────────
   hero: {
-    pill: "Available for new projects — August",
+    /** `{month}` is filled in at render time — see lib/site-date.ts. Never
+        hard-code a month here; it will go stale and nobody will notice. */
+    pill: "Available for new projects — {month}",
     headline: "We automate the work your team shouldn’t be doing.",
     subhead:
       "Custom AI automation and internal tools for agencies and service businesses. Working software in 5 days, not 5 months.",

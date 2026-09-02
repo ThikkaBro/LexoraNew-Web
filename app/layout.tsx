@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { siteConfig } from "./site-config";
+import { Assistant } from "@/components/assistant/Assistant";
 import "./globals.css";
 
 const inter = Inter({
@@ -62,6 +63,19 @@ export const metadata: Metadata = {
     },
   },
 };
+
+/**
+ * Regenerate every page once a day.
+ *
+ * This is what keeps the hero's availability month and the footer's copyright
+ * year current. Without it both are frozen at whatever they were when the site
+ * was last deployed, because static pages run their code exactly once, at
+ * build time. Applies to every route beneath this layout.
+ *
+ * Pages remain static and CDN-cached — this costs one regeneration per page
+ * per day, not one per visitor, and changes nothing a Lighthouse run measures.
+ */
+export const revalidate = 86400;
 
 export const viewport: Viewport = {
   themeColor: "#08090A",
@@ -228,6 +242,9 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        {/* Lazy-loaded chat assistant. Ships a button; the panel is a separate
+            chunk fetched on demand. See components/assistant/Assistant.tsx. */}
+        <Assistant />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

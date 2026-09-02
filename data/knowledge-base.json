@@ -1,0 +1,446 @@
+{
+  "version": 1,
+  "builtAt": "2026-09-02T06:48:46.370Z",
+  "business": {
+    "name": "LexoraTech",
+    "domain": "https://lexoratech.com"
+  },
+  "estimatedTokens": 3663,
+  "chunks": [
+    {
+      "id": "overview",
+      "section": "Overview",
+      "title": "What LexoraTech is",
+      "url": "/",
+      "keywords": [
+        "based",
+        "location",
+        "where",
+        "country",
+        "office",
+        "remote",
+        "timezone",
+        "hours",
+        "contact",
+        "email",
+        "reach",
+        "founded",
+        "company",
+        "studio"
+      ],
+      "text": "LexoraTech — Building with Bits. AI automation and internal tools for agencies and service businesses. Fixed price, fixed date, working software in five days. US, UK, EU, AU. Founded 2023. Based in Colombo, Sri Lanka. Colombo, Sri Lanka · Working worldwide. Contact email hello@lexoratech.com. Booking link https://cal.com/lexora-tech/30min. We’re a two-person studio. No account managers, no handoffs, no team you never meet. The person on your kickoff call is the person shipping your software."
+    },
+    {
+      "id": "positioning",
+      "section": "Overview",
+      "title": "Headline positioning",
+      "url": "/",
+      "text": "We automate the work your team shouldn’t be doing. Custom AI automation and internal tools for agencies and service businesses. Working software in 5 days, not 5 months. Trust signals shown on the site: Teams in the US, UK, Australia & NL; 4-hour daily overlap with US Eastern; Fixed prices, no surprises."
+    },
+    {
+      "id": "problem",
+      "section": "The problem we solve",
+      "title": "Most teams lose 15+ hours a week to work a machine should be doing.",
+      "url": "/",
+      "text": "Not the interesting work. The copy-paste, the chasing, the re-typing of things that already exist somewhere else. Specific examples: Copying data between tools — Your CRM, your spreadsheet and your inbox all hold the same record. Someone keeps them in sync by hand. Manually screening applications — Two hundred CVs, one shortlist, and a person reading every single one to find the eight that matter. Chasing status updates — Half your week is asking people where things are, then typing the answer into a report nobody reads."
+    },
+    {
+      "id": "offer",
+      "section": "Pricing and offer",
+      "title": "The 5-Day Build — $1,500 fixed price",
+      "url": "/",
+      "keywords": [
+        "price",
+        "pricing",
+        "cost",
+        "budget",
+        "quote",
+        "rate",
+        "fee",
+        "how much",
+        "package",
+        "offer",
+        "guarantee",
+        "refund",
+        "risk",
+        "warranty",
+        "included"
+      ],
+      "text": "We map your top three manual workflows, pick the one with the highest hours-saved-per-week, and ship it as working software in five working days. Price: $1,500 (fixed price). What is included: Working software running on your systems — not a prototype, not a slide deck; Full source code in your own repository from day one; A written update at the end of every working day; 30 days of fixes included after handover, no hourly billing; A recorded handover call so your team can run it without us. Guarantee: If it doesn’t do what we agreed, you don’t pay the second half."
+    },
+    {
+      "id": "calculator",
+      "section": "Pricing and offer",
+      "title": "The cost-of-manual-work calculator on the site",
+      "url": "/",
+      "text": "What is that manual work already costing you? Move the sliders to your own numbers. No email required, nothing is sent anywhere — the maths runs in your browser. It is an interactive estimate the visitor runs in their own browser; nothing is sent anywhere. Its own stated caveat: A rough estimate, not a quote. Assumes 46 working weeks a year and that automation removes half the task, not all of it."
+    },
+    {
+      "id": "why-us-1",
+      "section": "Why hire us",
+      "title": "Who writes your code",
+      "url": "/#why-us",
+      "text": "Who writes your code. At LexoraTech: The two founders. The person on your kickoff call is the person committing. By comparison, with the usual arrangement — an agency or a marketplace contractor — A rotating junior you never meet, behind an account manager."
+    },
+    {
+      "id": "why-us-2",
+      "section": "Why hire us",
+      "title": "What you pay",
+      "url": "/#why-us",
+      "text": "What you pay. At LexoraTech: A fixed number, agreed in writing before anyone starts. By comparison, with the usual arrangement — an agency or a marketplace contractor — An hourly estimate that grows once the work is underway."
+    },
+    {
+      "id": "why-us-3",
+      "section": "Why hire us",
+      "title": "Time to working software",
+      "url": "/#why-us",
+      "text": "Time to working software. At LexoraTech: Five working days for the first build. By comparison, with the usual arrangement — an agency or a marketplace contractor — Six to twelve weeks, most of it discovery and documents."
+    },
+    {
+      "id": "why-us-4",
+      "section": "Why hire us",
+      "title": "How you track progress",
+      "url": "/#why-us",
+      "text": "How you track progress. At LexoraTech: A written update at the end of every working day. By comparison, with the usual arrangement — an agency or a marketplace contractor — A status call every other week, if you chase it."
+    },
+    {
+      "id": "why-us-5",
+      "section": "Why hire us",
+      "title": "Who owns the code",
+      "url": "/#why-us",
+      "text": "Who owns the code. At LexoraTech: You do, in your own repository, from the first commit. By comparison, with the usual arrangement — an agency or a marketplace contractor — Handed over at the end — assuming the contract says so."
+    },
+    {
+      "id": "why-us-6",
+      "section": "Why hire us",
+      "title": "When something breaks after launch",
+      "url": "/#why-us",
+      "text": "When something breaks after launch. At LexoraTech: 30 days of fixes included, no hourly billing. By comparison, with the usual arrangement — an agency or a marketplace contractor — A new statement of work, or the contractor has moved on."
+    },
+    {
+      "id": "why-us-summary",
+      "section": "Why hire us",
+      "title": "The difference is structural, not a sales pitch.",
+      "url": "/#why-us",
+      "text": "You are not choosing between us and nothing. You are choosing between us and an agency or a marketplace contractor — so here is the honest comparison. If a local agency is genuinely the better fit for what you need, we will say so on the call."
+    },
+    {
+      "id": "case-employee-assistance-program-platform",
+      "section": "Case study",
+      "title": "Sri Lanka’s first Employee Assistance Program platform",
+      "url": "/work/employee-assistance-program-platform",
+      "keywords": [
+        "work",
+        "built",
+        "build",
+        "made",
+        "portfolio",
+        "projects",
+        "examples",
+        "clients",
+        "case",
+        "study",
+        "previous",
+        "before",
+        "experience",
+        "references",
+        "done",
+        "Laravel",
+        "Vue.js",
+        "AWS",
+        "Stripe",
+        "MySQL"
+      ],
+      "text": "Client: Inner Mental Wellness · corporate mental health. The problem: Workplace mental health support was fragmented. Companies had no private, central way for staff to reach a therapist — and employees would not use anything HR could see. What we built: A platform where employees book therapy anonymously, sessions run securely in the browser, and HR only ever sees aggregated wellness reporting. Stripe handles corporate billing automatically. Corporate clients on the platform: 50+ organisations. Technologies used: Laravel, Vue.js, AWS, Stripe, MySQL. Live at https://innermentalwellness.com."
+    },
+    {
+      "id": "case-browser-based-creator-tool-suite",
+      "section": "Case study",
+      "title": "A 33-tool creator suite that runs entirely in the browser",
+      "url": "/work/browser-based-creator-tool-suite",
+      "keywords": [
+        "work",
+        "built",
+        "build",
+        "made",
+        "portfolio",
+        "projects",
+        "examples",
+        "clients",
+        "case",
+        "study",
+        "previous",
+        "before",
+        "experience",
+        "references",
+        "done",
+        "PHP 8.2",
+        "Cloudflare",
+        "Client-side processing"
+      ],
+      "text": "Client: Lexora Workspace · our own product. The problem: Everyday creator and developer utilities are scattered across dozens of ad-heavy sites, most of which want you to upload your file to their server before they will touch it. What we built: One workspace with 33 tools across design, video, audio and developer tooling — whiteboard, device mockups, background removal, image compression, code formatting. The work happens in your browser. No install, no account, nothing uploaded. Shipped and live: 33 tools, zero install. Technologies used: PHP 8.2, Cloudflare, Client-side processing. Live at https://apps.lexoratech.com/."
+    },
+    {
+      "id": "case-vedic-astrology-platform-sinhala",
+      "section": "Case study",
+      "title": "Vedic astrology tools built on real ephemeris data, in Sinhala",
+      "url": "/work/vedic-astrology-platform-sinhala",
+      "keywords": [
+        "work",
+        "built",
+        "build",
+        "made",
+        "portfolio",
+        "projects",
+        "examples",
+        "clients",
+        "case",
+        "study",
+        "previous",
+        "before",
+        "experience",
+        "references",
+        "done",
+        "Next.js",
+        "Vercel",
+        "Swiss Ephemeris",
+        "Bilingual i18n"
+      ],
+      "text": "Client: Nimithi · our own product. The problem: Astrology online in Sri Lanka meant a choice between paywalled readings and free sites whose numbers came from nowhere in particular — and almost none of it in Sinhala. What we built: Nimithi computes every reading from Swiss Ephemeris planetary data rather than guesswork: daily horoscopes, Rahu Kalaya, Panchanga, compatibility. Bilingual Sinhala and English, 24+ tools, free, no account. Shareable cards give it a route into WhatsApp and Instagram. Free tools, both languages: 24+ tools, no login. Technologies used: Next.js, Vercel, Swiss Ephemeris, Bilingual i18n. Live at https://nimithi.com."
+    },
+    {
+      "id": "case-national-child-safeguarding-platform",
+      "section": "Case study",
+      "title": "The digital home of a national child-safeguarding programme",
+      "url": "/work/national-child-safeguarding-platform",
+      "keywords": [
+        "work",
+        "built",
+        "build",
+        "made",
+        "portfolio",
+        "projects",
+        "examples",
+        "clients",
+        "case",
+        "study",
+        "previous",
+        "before",
+        "experience",
+        "references",
+        "done",
+        "PHP 8",
+        "MySQL",
+        "Bootstrap 5",
+        "jQuery"
+      ],
+      "text": "Client: The Missed Lesson · national child-safety programme. The problem: A programme run jointly by the Ministry of Education, the Police Child and Women Bureau, TEAM HERO and the ELPEC Campus was coordinating through fragmented channels and printed handouts. Staff could not publish or correct safety guidance without going back to a developer. What we built: A deliberately lightweight PHP platform with a custom CMS, so non-technical staff publish and update safeguarding guidance themselves, in real time, with no developer in the loop. Brief to live: 12 days. Technologies used: PHP 8, MySQL, Bootstrap 5, jQuery. No live link is available for this project."
+    },
+    {
+      "id": "services",
+      "section": "Services",
+      "title": "What we build",
+      "url": "/#services",
+      "keywords": [
+        "services",
+        "offer",
+        "capabilities",
+        "skills",
+        "tech",
+        "stack",
+        "do",
+        "mobile",
+        "app",
+        "web",
+        "ecommerce",
+        "cms",
+        "automation",
+        "agents"
+      ],
+      "text": "AI Automation & Agents: Workflows that read, decide and act on your real data. Web Applications: Internal tools, dashboards and customer portals. Mobile Apps: React Native, one codebase, iOS and Android. E-commerce & CMS: Shopify and WordPress builds and integrations."
+    },
+    {
+      "id": "process",
+      "section": "Process",
+      "title": "How a project runs, step by step",
+      "url": "/#process",
+      "keywords": [
+        "process",
+        "steps",
+        "how",
+        "work",
+        "timeline",
+        "onboarding",
+        "kickoff",
+        "start",
+        "handover",
+        "delivery"
+      ],
+      "text": "Step 01 — Call: 30 minutes. You describe the work that’s eating your week. We tell you honestly whether we can fix it. Step 02 — Scope: A fixed price and a fixed delivery date, in writing, before anyone starts. No hourly billing, no scope drift. Step 03 — Build: A written update at the end of every working day. Your repository, your access, from the first commit. Step 04 — Handover: Code, documentation and a recorded training call. Then 30 days of fixes, included."
+    },
+    {
+      "id": "about",
+      "section": "About the studio",
+      "title": "Two people. You talk to whoever is writing the code.",
+      "url": "/#about",
+      "keywords": [
+        "team",
+        "who",
+        "people",
+        "founders",
+        "about",
+        "company",
+        "staff",
+        "size",
+        "location",
+        "where"
+      ],
+      "text": "We’re a two-person studio. No account managers, no handoffs, no team you never meet. The person on your kickoff call is the person shipping your software. The team: Theekshana Sudeepa, Founder, Full-Stack Engineering. Full-stack architect on both the Inner Mental Wellness platform and the Missed Lesson system. Writes most of the backend, and would rather delete code than add it. Praveen Lakshan, Co-founder, CTO. Runs architecture and infrastructure across the studio’s builds. Cares most about the boring parts that keep systems up at 3am."
+    },
+    {
+      "id": "products",
+      "section": "Our own products",
+      "title": "Products we build and run ourselves",
+      "url": "/",
+      "text": "Lexora Workspace (https://apps.lexoratech.com/): 33 free browser-based tools for design, video, audio and development. No install, no account, and files are processed in the browser rather than uploaded. Nimithi (https://nimithi.com): 24+ free Vedic astrology tools for Sri Lanka, computed from Swiss Ephemeris planetary data. Bilingual Sinhala and English, no account required."
+    },
+    {
+      "id": "faq-1",
+      "section": "FAQ",
+      "title": "You’re not local — how does that work?",
+      "url": "/#faq",
+      "text": "Question: You’re not local — how does that work? Answer: We work a 4-hour daily overlap with US Eastern and a full overlap with UK and European hours. You get a written update at the end of every working day, and your code sits in your repository from the first commit — not ours. In practice most clients say it feels closer than agencies in their own city, because the updates never stop."
+    },
+    {
+      "id": "faq-2",
+      "section": "FAQ",
+      "title": "What does a typical project cost?",
+      "url": "/#faq",
+      "text": "Question: What does a typical project cost? Answer: The 5-Day Build is $1,500 fixed and is how most clients start. Beyond that, a focused internal tool or automation usually lands between $4,000 and $12,000. A full web or mobile application is typically $15,000 to $40,000. We quote a fixed number before we start, and we’d rather tell you the range now than waste a call."
+    },
+    {
+      "id": "faq-3",
+      "section": "FAQ",
+      "title": "How fast can you start?",
+      "url": "/#faq",
+      "text": "Question: How fast can you start? Answer: Usually within one to two weeks. If you book a call this week we’ll tell you our real next opening on that call — we don’t hold slots we can’t honour."
+    },
+    {
+      "id": "faq-4",
+      "section": "FAQ",
+      "title": "Who owns the code?",
+      "url": "/#faq",
+      "text": "Question: Who owns the code? Answer: You do, completely, on final payment. It lives in your repository, under your account, from day one. No licensing, no hosting lock-in, no per-seat fees to us. If you decide to take it in-house next month, everything you need is already yours."
+    },
+    {
+      "id": "faq-5",
+      "section": "FAQ",
+      "title": "What if it goes wrong?",
+      "url": "/#faq",
+      "text": "Question: What if it goes wrong? Answer: The 5-Day Build is billed half up front and half on delivery. If what we ship doesn’t do what the written scope says, you don’t pay the second half. On larger projects we work in fixed-price milestones so you can stop after any one of them."
+    },
+    {
+      "id": "faq-6",
+      "section": "FAQ",
+      "title": "Can you work with our existing team and stack?",
+      "url": "/#faq",
+      "text": "Question: Can you work with our existing team and stack? Answer: Yes — that’s most of our work. We join your repo, follow your conventions, and open pull requests your engineers review. If you have no engineers, we handle deployment and hosting too, and document it so you’re never dependent on us."
+    },
+    {
+      "id": "md-privacy-and-data-0",
+      "section": "Site content",
+      "title": "Privacy and data handling on this website",
+      "text": "This mirrors the published privacy policy at /privacy. It is here because that page is written as JSX rather than living in `app/site-config.ts`, so the ingestion script cannot read it directly. Keep the two in step."
+    },
+    {
+      "id": "md-privacy-and-data-1",
+      "section": "Site content",
+      "title": "Does this website track visitors?",
+      "text": "No. The site sets no cookies of its own, runs no analytics and no advertising scripts, and cannot identify a visitor from a normal page view. The hosting provider, Vercel, keeps standard server logs including IP address, browser type and requested URL, in order to serve the site and protect it from abuse.",
+      "keywords": [
+        "privacy",
+        "tracking",
+        "cookies",
+        "analytics",
+        "gdpr",
+        "data",
+        "personal data",
+        "store",
+        "stored",
+        "storing",
+        "retention"
+      ]
+    },
+    {
+      "id": "md-privacy-and-data-2",
+      "section": "Site content",
+      "title": "What does the assistant panel collect?",
+      "text": "Nothing until a visitor types a message and sends it. At that point the message and the conversation so far go to the server and on to the AI provider that generates the reply. The conversation is kept in the visitor's own browser for the length of the visit and is gone when the tab closes. Transcripts are not stored on the server. Token counts are recorded so the running cost is visible, and those records contain no message content. IP addresses are used to count requests and prevent abuse, and are not linked to anything else. Visitors should not type anything confidential into it.",
+      "keywords": [
+        "chatbot",
+        "assistant",
+        "chat",
+        "data",
+        "store",
+        "stored",
+        "storing",
+        "save",
+        "saved",
+        "record",
+        "transcript",
+        "conversation",
+        "privacy",
+        "confidential",
+        "secure"
+      ]
+    },
+    {
+      "id": "md-privacy-and-data-3",
+      "section": "Site content",
+      "title": "What happens to a name and email left in the assistant?",
+      "text": "They are sent to LexoraTech and nowhere else, along with the recent part of the conversation so whoever replies has the context. They are used only to answer the enquiry, never sold, and never added to a marketing list. They are deleted on request.",
+      "keywords": [
+        "email",
+        "name",
+        "contact",
+        "details",
+        "lead",
+        "spam",
+        "marketing",
+        "sell",
+        "delete"
+      ]
+    },
+    {
+      "id": "md-privacy-and-data-4",
+      "section": "Site content",
+      "title": "Who owns data during a client project?",
+      "text": "During a project LexoraTech may be given access to systems containing personal data belonging to the client's business. In that relationship the client is the data controller and LexoraTech acts as a processor on the client's written instructions. LexoraTech can sign a data processing agreement, and does not retain copies of client data after handover unless asked to.",
+      "keywords": [
+        "dpa",
+        "data processing agreement",
+        "controller",
+        "processor",
+        "client data",
+        "nda",
+        "confidential"
+      ]
+    },
+    {
+      "id": "md-privacy-and-data-5",
+      "section": "Site content",
+      "title": "What rights do UK and EU visitors have?",
+      "text": "Under UK GDPR and EU GDPR, visitors can ask what personal data is held about them, have it corrected or erased, and object to how it is used. Email hello@lexoratech.com and LexoraTech will respond within 30 days. Visitors may also complain to their national data protection authority.",
+      "keywords": [
+        "gdpr",
+        "rights",
+        "erasure",
+        "delete",
+        "access request",
+        "subject access",
+        "ico",
+        "dpa"
+      ]
+    }
+  ]
+}
