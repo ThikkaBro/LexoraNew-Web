@@ -1,4 +1,5 @@
 import { siteConfig } from "@/app/site-config";
+import { withAvailabilityMonth } from "@/lib/site-date";
 import { ButtonLink } from "./ui";
 import { Reveal } from "./Reveal";
 
@@ -29,7 +30,7 @@ export function Hero() {
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-full bg-accent"
             />
-            {hero.pill}
+            {withAvailabilityMonth(hero.pill)}
           </p>
         </Reveal>
 

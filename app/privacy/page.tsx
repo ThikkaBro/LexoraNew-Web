@@ -7,8 +7,9 @@ import { Footer } from "@/components/Footer";
 
 /**
  * ⚠️ NOT LEGAL ADVICE. This describes what the site actually does today:
- * no forms, no analytics, no cookies set by us, one outbound booking link.
- * If you add analytics, a form, or a chat widget, this page must change.
+ * no analytics, no cookies set by us, one outbound booking link, and the AI
+ * assistant panel (see the "When you use the assistant" section below).
+ * If you add analytics or another form, this page must change.
  * Have a lawyer review it before you rely on it for UK/EU clients.
  */
 export const metadata: Metadata = {
@@ -46,25 +47,58 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="t-h3">The short version</h2>
                 <p className="t-body mt-3 text-muted">
-                  This website sets no cookies, runs no analytics or tracking,
-                  and has no forms. We cannot identify you from visiting it. The
-                  only ways to contact us are an email link and a link to our
-                  booking page, and both are entirely your choice.
+                  This website sets no cookies and runs no analytics or
+                  tracking. We cannot identify you from visiting it. It has one
+                  optional feature that collects anything: the assistant panel
+                  in the corner, and only if you type into it. Everything else
+                  — the email link, the booking link — is entirely your choice.
                 </p>
               </section>
 
               <section>
                 <h2 className="t-h3">What this site collects</h2>
                 <p className="t-body mt-3 text-muted">
-                  Nothing directly. There is no contact form, no newsletter
-                  signup, no chat widget, and no advertising or analytics script
-                  on any page.
+                  Nothing, unless you use the assistant panel. There is no
+                  contact form, no newsletter signup, and no advertising or
+                  analytics script on any page.
                 </p>
                 <p className="t-body mt-3 text-muted">
                   Our hosting provider, Vercel, processes standard server logs
                   including IP address, browser type and requested URL, in order
                   to serve the site and protect it from abuse. We do not use
                   those logs to build a profile of you.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="t-h3">When you use the assistant</h2>
+                <p className="t-body mt-3 text-muted">
+                  The panel in the corner of the page answers questions using
+                  only what is published on this site. It is optional and it
+                  collects nothing until you type a message and send it.
+                </p>
+                <p className="t-body mt-3 text-muted">
+                  What happens when you do: the message and the conversation so
+                  far are sent to our server, and from there to the AI provider
+                  that generates the reply, which processes it under its own
+                  terms and does not use it to train its models. Your
+                  conversation is held in your own browser for the length of the
+                  visit and is gone when you close the tab. We do not store
+                  transcripts on our servers; we do record the number of tokens
+                  each request used, so we can see what the feature costs, and
+                  that record contains no message content.
+                </p>
+                <p className="t-body mt-3 text-muted">
+                  Your IP address is used to count requests and stop the feature
+                  being abused, and is not linked to anything else. Please do not
+                  type anything confidential into it — it is a website FAQ, not a
+                  secure channel.
+                </p>
+                <p className="t-body mt-3 text-muted">
+                  If you choose to leave your name and email so a person can
+                  reply, those details and the recent part of the conversation
+                  are sent to us, and to nowhere else. We use them only to
+                  answer you. Ask us and we will delete them.
                 </p>
               </section>
 

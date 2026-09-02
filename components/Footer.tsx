@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Github, Linkedin } from "lucide-react";
 import { siteConfig } from "@/app/site-config";
+import { currentYear } from "@/lib/site-date";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -49,7 +50,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.75rem] text-faint">
-            © {new Date().getFullYear()} {siteConfig.legalName}. All rights
+            © {currentYear()} {siteConfig.legalName}. All rights
             reserved.
           </p>
           <Link
