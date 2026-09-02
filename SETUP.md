@@ -6,7 +6,9 @@ decisions, or your clients' permission.
 Work top to bottom. Steps 1–3 can happen today; step 5 is the point of no
 return, so do it when you can watch it for an hour.
 
+
 **What I verified about your current setup**, so you don't have to re-check:
+
 
 | Thing | State |
 |---|---|
