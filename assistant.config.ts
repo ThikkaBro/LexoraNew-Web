@@ -58,7 +58,14 @@ export const assistantConfig = {
 
   // ── Knowledge base ────────────────────────────────────────────────────────
   knowledgeBase: {
-    /** Written by `npm run kb:build`. Path is relative to the repo root. */
+    /**
+     * Where `npm run kb:build` WRITES the knowledge base, relative to the repo
+     * root. The runtime does not read this value: it imports the JSON
+     * statically, because a path assembled at runtime is invisible to the
+     * build's file tracer and the file then never reaches a serverless
+     * deployment. If you move it, change the import in
+     * `lib/assistant/knowledge.ts` too — that file explains why.
+     */
     path: "data/knowledge-base.json",
     /**
      * "full"  — put the entire knowledge base in the system prompt (cached).

@@ -221,15 +221,18 @@ npx tsx scripts/build-knowledge-base.mts
    them for the client's own tokens — no component edits.
 4. `npm run kb:build`
 5. **Set environment variables** in their host's dashboard.
-6. **Mount the widget** — one line in the root layout:
+6. **Commit `data/knowledge-base.json`.** It is generated, but it must be in
+   the repository — the deployed function is built from the repo, and the file
+   is compiled into the function at build time.
+7. **Mount the widget** — one line in the root layout:
    ```tsx
    import { Assistant } from "@/components/assistant/Assistant";
    // …then <Assistant /> just before </body>
    ```
-7. **Update their privacy policy.** Not optional: the widget sends visitor
+8. **Update their privacy policy.** Not optional: the widget sends visitor
    messages to a third party and uses IP addresses for rate limiting. See
    [`app/privacy/page.tsx`](app/privacy/page.tsx) for wording that covers it.
-8. **Test the refusals before you invoice.** Ask it three things the site does
+9. **Test the refusals before you invoice.** Ask it three things the site does
    not answer — a technology they do not list, a delivery date, a discount — and
    confirm it declines each one. That behaviour is the product.
 
@@ -288,7 +291,7 @@ scripts/build-knowledge-base.mts       ← ingestion (npm run kb:build)
 
 lib/assistant/
   types.ts             shared types and the streaming wire format
-  knowledge.ts         loads the base; scoring, IDF, coverage checks
+  knowledge.ts         imports the base; scoring, IDF, coverage checks
   prompt.ts            the system prompt, and the cache split
   rate-limit.ts        per-IP limits, in-memory or Upstash
   usage.ts             token accounting and cost
@@ -335,6 +338,36 @@ The threshold is roughly **30,000 tokens**. `npm run kb:build` prints where you
 are and warns when you cross it; switching is one line in the config
 (`knowledgeBase.mode: "topk"`), and the ingestion script already emits chunks,
 so nothing has to be rebuilt to make the change.
+
+### Why the knowledge base is imported, not read
+
+`lib/assistant/knowledge.ts` pulls the knowledge base in with a static
+`import`, not `readFileSync(process.cwd() + config.path)`. That is not a style
+preference — the read version **works locally and 503s in production**, which is
+the worst way for a bug to behave.
+
+A serverless deployment does not ship your repository. Next.js traces which
+files each function actually needs and copies only those, and that trace is
+static: it follows `import` statements. A path assembled at runtime from a
+config value is invisible to it, so `data/` never gets copied, the read throws,
+and every request returns "The assistant is not configured yet."
+
+An `import` is visible to the tracer, so the JSON is compiled into the function
+bundle. Three things improve as a result: it works on any host, a missing or
+malformed knowledge base becomes a **build** failure instead of a 503 a visitor
+finds, and there is no disk read in the request path at all.
+
+`assistant.config.ts` still owns the path because the ingestion script writes
+there. Moving it means changing both places, and the runtime deliberately
+cannot read the config value.
+
+**To verify after a build**, confirm the content is inside the function and
+absent from the browser:
+
+```bash
+grep -c "estimatedTokens" .next/server/app/api/assistant/chat/route.js  # expect 1
+grep -rc "estimatedTokens" .next/static/                                # expect nothing
+```
 
 ### The system prompt is split so caching actually works
 
@@ -466,8 +499,14 @@ major upgrade, which is a separate job.
 
 ## Troubleshooting
 
-**"The assistant is not configured yet." (503)** — `data/knowledge-base.json` is
-missing. Run `npm run kb:build` and commit it.
+**"The assistant is not configured yet." (503)** — the knowledge base did not
+load. Run `npm run kb:build`, commit `data/knowledge-base.json`, and redeploy.
+
+If you see this **only in production while local works fine**, the cause is
+almost certainly that something reintroduced a runtime file read. The knowledge
+base is loaded with a static `import` in `lib/assistant/knowledge.ts`
+specifically to prevent that — see
+[Why the knowledge base is imported, not read](#why-the-knowledge-base-is-imported-not-read).
 
 **Answers say "I don't have that" too often** — demo mode is working as
 designed, but you may be missing aliases. Add a `Keywords:` line to the relevant

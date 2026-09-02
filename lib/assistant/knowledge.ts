@@ -1,38 +1,62 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { assistantConfig } from "@/assistant.config";
+import knowledgeBaseJson from "@/data/knowledge-base.json";
 import type { KnowledgeBase, KnowledgeChunk } from "./types";
 
 /**
- * Loads `data/knowledge-base.json` once per server process and keeps it in
- * memory. Server-only — importing this from a client component will fail the
- * build, which is deliberate: the knowledge base is not secret, but it has no
- * business being downloaded by every visitor.
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  LOADING THE KNOWLEDGE BASE
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ *  THIS IS A STATIC IMPORT, AND IT HAS TO BE. Do not "improve" it into a
+ *  `readFileSync(process.cwd() + config.path)` — that is what it used to be,
+ *  and it fails in production while working perfectly on a local machine,
+ *  which is the worst way for a bug to behave.
+ *
+ *  Why it fails: a serverless deployment does not ship the repository. Next.js
+ *  traces which files each function actually needs and copies only those. That
+ *  trace is static — it follows `import` statements. A path assembled at
+ *  runtime from a config value is invisible to it, so `data/` never gets
+ *  copied, the read throws, and every request returns "The assistant is not
+ *  configured yet."
+ *
+ *  An `import` is visible to the tracer, so the knowledge base is compiled into
+ *  the function bundle. It also means a missing or malformed file is a BUILD
+ *  error rather than a 503 discovered by a visitor, and it removes the disk
+ *  read from the request path entirely.
+ *
+ *  `assistant.config.ts` still owns the path — the ingestion script writes
+ *  there. If a client needs a different location, change it in both places;
+ *  the import cannot read the config value, by design.
+ *
+ *  Server-only. Nothing in `components/` imports this, so the knowledge base is
+ *  never downloaded by a visitor.
  */
+
+/**
+ * The JSON's inferred type is structural and not quite `KnowledgeBase` —
+ * `version` widens to `number`, and only some chunks carry `keywords`, so the
+ * array infers as a union. The shape is guaranteed by the ingestion script and
+ * checked at runtime immediately below.
+ */
+const parsed = knowledgeBaseJson as unknown as KnowledgeBase;
 
 let cached: KnowledgeBase | null = null;
 
 export function loadKnowledgeBase(): KnowledgeBase {
   if (cached) return cached;
 
-  const path = join(process.cwd(), assistantConfig.knowledgeBase.path);
-
-  let parsed: KnowledgeBase;
-  try {
-    parsed = JSON.parse(readFileSync(path, "utf8")) as KnowledgeBase;
-  } catch (cause) {
+  // A version mismatch means the committed file predates a shape change.
+  // Failing loudly beats serving answers from a half-understood file.
+  if (parsed.version !== 1) {
     throw new Error(
-      `Could not read the knowledge base at ${assistantConfig.knowledgeBase.path}. ` +
-        `Run \`npm run kb:build\` and commit the result.`,
-      { cause },
+      `Knowledge base is version ${parsed.version}, this build expects 1. ` +
+        `Re-run \`npm run kb:build\` (writes ${assistantConfig.knowledgeBase.path}).`,
     );
   }
 
-  // A version mismatch means the file predates a shape change. Failing here is
-  // far better than serving answers from a half-understood file.
-  if (parsed.version !== 1) {
+  if (!Array.isArray(parsed.chunks) || parsed.chunks.length === 0) {
     throw new Error(
-      `Knowledge base is version ${parsed.version}, this build expects 1. Re-run \`npm run kb:build\`.`,
+      `Knowledge base has no chunks. Run \`npm run kb:build\` and commit the result.`,
     );
   }
 
