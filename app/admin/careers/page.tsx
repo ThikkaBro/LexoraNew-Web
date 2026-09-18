@@ -11,6 +11,7 @@ interface Application {
   coverNote: string | null;
   expectedSalary: string | null;
   cvFileName: string | null;
+  cvUrl: string | null;
   appliedAt: string;
 }
 
@@ -205,9 +206,13 @@ export default function AdminCareersPage() {
                           LinkedIn Profile
                         </a>
                       )}
-                      {app.cvFileName && (
+                      {(app.cvUrl || app.cvFileName) && (
                         <a
-                          href={`/api/careers/download?file=${encodeURIComponent(app.cvFileName)}&pw=${encodeURIComponent(pw)}`}
+                          href={
+                            app.cvUrl
+                              ? `/api/careers/download?file=${encodeURIComponent(app.cvUrl)}&pw=${encodeURIComponent(pw)}`
+                              : `/api/careers/download?file=${encodeURIComponent(app.cvFileName!)}&pw=${encodeURIComponent(pw)}`
+                          }
                           className="flex items-center gap-2 rounded border border-line bg-surface px-3 py-1.5 text-sm text-paper hover:border-accent/30 transition-colors"
                         >
                           <Download size={13} />

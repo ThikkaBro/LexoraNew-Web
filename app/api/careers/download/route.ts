@@ -1,27 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readFile } from "fs/promises";
 import path from "path";
 
-const DATA_DIR = path.join(process.cwd(), "data", "applications");
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "lexora-admin-2026";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const pw = searchParams.get("pw");
+  const pw   = searchParams.get("pw");
   const file = searchParams.get("file");
 
   if (pw !== ADMIN_PASSWORD) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  if (!file || file.includes("..") || file.includes("/")) {
-    return new NextResponse("Invalid file", { status: 400 });
+  if (!file) {
+    return new NextResponse("Missing file parameter", { status: 400 });
+  }
+
+  // If it's a full Vercel Blob URL, redirect to it directly
+  if (file.startsWith("https://")) {
+    return NextResponse.redirect(file);
+  }
+
+  // Otherwise it's a local filename — serve from disk (dev only)
+  if (file.includes("..") || file.includes("/")) {
+    return new NextResponse("Invalid file path", { status: 400 });
   }
 
   try {
-    const filePath = path.join(DATA_DIR, file);
-    const buffer = await readFile(filePath);
-    const ext = path.extname(file).toLowerCase();
+    const { readFile } = await import("fs/promises");
+    const filePath = path.join(process.cwd(), "data", "applications", file);
+    const buffer   = await readFile(filePath);
+    const ext      = path.extname(file).toLowerCase();
+
     const contentType =
       ext === ".pdf"
         ? "application/pdf"
