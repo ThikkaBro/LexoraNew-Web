@@ -3,12 +3,30 @@ import { Resend } from "resend";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 
+// Raise the body-size limit to 10 MB so large CV/PDF files go through.
+// Next.js App Router: set this via the route segment config.
+export const maxDuration = 30; // seconds (Vercel hobby = 10s, pro = 60s)
+export const dynamic = "force-dynamic";
+
+// We handle the raw stream ourselves via formData(), so we need to
+// tell Next.js not to parse the body with its own JSON parser.
+export const runtime = "nodejs";
+
 const DATA_DIR = path.join(process.cwd(), "data", "applications");
 const INDEX_FILE = path.join(DATA_DIR, "index.json");
 
 
 export async function POST(req: NextRequest) {
   try {
+    // Guard: reject files over 10 MB before we even parse them
+    const contentLength = req.headers.get("content-length");
+    if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "File too large. Please upload a CV under 10 MB." },
+        { status: 413 }
+      );
+    }
+
     const formData = await req.formData();
 
     const name = formData.get("name") as string;

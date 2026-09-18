@@ -50,6 +50,13 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
+  experimental: {
+    // Allow CV uploads up to 10 MB (default is 4 MB).
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
+
   async redirects() {
     return legacyRedirects.map(([source, destination]) => ({
       source,
