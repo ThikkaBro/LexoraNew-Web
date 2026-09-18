@@ -6,30 +6,80 @@ export const maxDuration = 30;
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// Helper to resolve Upstash / Redis credentials across any Vercel integration naming
-function getRedisCredentials(): { url?: string; token?: string } {
-  const url =
-    process.env.UPSTASH_REDIS_REST_URL ||
-    process.env.UPSTASH_REST_API_URL ||
-    process.env.UPSTASH_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.STORAGE_REST_API_URL ||
-    process.env.STORAGE_URL ||
-    process.env.REDIS_URL;
+// Helper to resolve Upstash / Redis credentials across ANY Vercel integration prefix.
+// When Upstash is added via Vercel Marketplace, it injects env vars with the user's
+// chosen prefix, e.g. STORAGE_REDIS_REST_URL, KV_REDIS_REST_URL, UPSTASH_REDIS_REST_URL.
+// Instead of guessing every possible prefix, we scan ALL env vars for an Upstash URL.
+function getRedisCredentials(): { url: string; token: string } | null {
+  // 1. Try well-known variable names first (fastest path)
+  const knownUrlKeys = [
+    "UPSTASH_REDIS_REST_URL",
+    "KV_REST_API_URL",
+    "KV_REDIS_REST_URL",
+    "STORAGE_REDIS_REST_URL",
+    "REDIS_URL",
+  ];
+  const knownTokenKeys = [
+    "UPSTASH_REDIS_REST_TOKEN",
+    "KV_REST_API_TOKEN",
+    "KV_REDIS_REST_TOKEN",
+    "STORAGE_REDIS_REST_TOKEN",
+    "REDIS_TOKEN",
+  ];
 
-  const token =
-    process.env.UPSTASH_REDIS_REST_TOKEN ||
-    process.env.UPSTASH_REST_API_TOKEN ||
-    process.env.UPSTASH_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.STORAGE_REST_API_TOKEN ||
-    process.env.STORAGE_TOKEN ||
-    process.env.REDIS_TOKEN;
-
-  if (url && token) {
-    return { url, token };
+  for (const k of knownUrlKeys) {
+    const url = process.env[k];
+    if (url) {
+      // Find the matching token: replace URL/url in the key name with TOKEN/token
+      const tokenKey = k.replace(/_URL$/, "_TOKEN");
+      const token = process.env[tokenKey];
+      if (token) {
+        console.log(`[careers] Redis credentials found via ${k} / ${tokenKey}`);
+        return { url, token };
+      }
+    }
   }
-  return {};
+  // Also check known token keys independently
+  for (const k of knownTokenKeys) {
+    const token = process.env[k];
+    if (token) {
+      const urlKey = k.replace(/_TOKEN$/, "_URL");
+      const url = process.env[urlKey];
+      if (url) {
+        console.log(`[careers] Redis credentials found via ${urlKey} / ${k}`);
+        return { url, token };
+      }
+    }
+  }
+
+  // 2. Fallback: scan ALL env vars for anything with "upstash.io" in the value
+  const allKeys = Object.keys(process.env);
+  for (const key of allKeys) {
+    const val = process.env[key] || "";
+    if (val.includes("upstash.io") && (key.includes("URL") || key.includes("url"))) {
+      // Found a URL — now find its companion token
+      const base = key.replace(/_?URL$/i, "");
+      const tokenKey = allKeys.find(
+        (k) => k.startsWith(base) && (k.includes("TOKEN") || k.includes("token"))
+      );
+      if (tokenKey && process.env[tokenKey]) {
+        console.log(`[careers] Redis credentials auto-detected via ${key} / ${tokenKey}`);
+        return { url: val, token: process.env[tokenKey]! };
+      }
+    }
+  }
+
+  // 3. Log what env vars ARE available (names only, no values) for debugging
+  const redisLike = allKeys.filter(
+    (k) => /redis|upstash|kv|storage/i.test(k)
+  );
+  if (redisLike.length > 0) {
+    console.warn("[careers] Found Redis-like env vars but couldn't pair URL+TOKEN:", redisLike);
+  } else {
+    console.warn("[careers] No Redis/Upstash env vars found at all. Available env var names:", allKeys.filter(k => !k.startsWith("npm_")).slice(0, 30));
+  }
+
+  return null;
 }
 
 // ── Resilient file storage ───────────────────────────────────────────────────
@@ -75,13 +125,13 @@ async function saveFile(buffer: Buffer, fileName: string): Promise<string | null
 // Saves applicant to Upstash Redis, or local JSON in development.
 // Never throws.
 async function saveApplication(application: Record<string, unknown>): Promise<boolean> {
-  const { url, token } = getRedisCredentials();
+  const creds = getRedisCredentials();
 
   // 1. Try Upstash Redis (production database)
-  if (url && token) {
+  if (creds) {
     try {
       const { Redis } = await import("@upstash/redis");
-      const redis = new Redis({ url, token });
+      const redis = new Redis({ url: creds.url, token: creds.token });
       const id = application.id as string;
       await redis.hset(`career:app:${id}`, application);
       await redis.lpush("career:apps", id);
@@ -90,8 +140,6 @@ async function saveApplication(application: Record<string, unknown>): Promise<bo
     } catch (redisErr) {
       console.error("[careers] Upstash Redis save error:", redisErr);
     }
-  } else {
-    console.warn("[careers] Upstash Redis credentials not detected in environment.");
   }
 
   // 2. Local JSON fallback (local dev only)

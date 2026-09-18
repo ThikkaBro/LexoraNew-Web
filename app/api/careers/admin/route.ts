@@ -10,30 +10,57 @@ function checkPassword(pw: string | null): boolean {
   return pw === ADMIN_PASSWORD;
 }
 
-// Helper to resolve Upstash / Redis credentials across any Vercel integration naming
-function getRedisCredentials(): { url?: string; token?: string } {
-  const url =
-    process.env.UPSTASH_REDIS_REST_URL ||
-    process.env.UPSTASH_REST_API_URL ||
-    process.env.UPSTASH_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.STORAGE_REST_API_URL ||
-    process.env.STORAGE_URL ||
-    process.env.REDIS_URL;
+// Helper to resolve Upstash / Redis credentials across ANY Vercel integration prefix.
+function getRedisCredentials(): { url: string; token: string } | null {
+  const knownUrlKeys = [
+    "UPSTASH_REDIS_REST_URL",
+    "KV_REST_API_URL",
+    "KV_REDIS_REST_URL",
+    "STORAGE_REDIS_REST_URL",
+    "REDIS_URL",
+  ];
+  const knownTokenKeys = [
+    "UPSTASH_REDIS_REST_TOKEN",
+    "KV_REST_API_TOKEN",
+    "KV_REDIS_REST_TOKEN",
+    "STORAGE_REDIS_REST_TOKEN",
+    "REDIS_TOKEN",
+  ];
 
-  const token =
-    process.env.UPSTASH_REDIS_REST_TOKEN ||
-    process.env.UPSTASH_REST_API_TOKEN ||
-    process.env.UPSTASH_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.STORAGE_REST_API_TOKEN ||
-    process.env.STORAGE_TOKEN ||
-    process.env.REDIS_TOKEN;
-
-  if (url && token) {
-    return { url, token };
+  for (const k of knownUrlKeys) {
+    const url = process.env[k];
+    if (url) {
+      const tokenKey = k.replace(/_URL$/, "_TOKEN");
+      const token = process.env[tokenKey];
+      if (token) return { url, token };
+    }
   }
-  return {};
+  for (const k of knownTokenKeys) {
+    const token = process.env[k];
+    if (token) {
+      const urlKey = k.replace(/_TOKEN$/, "_URL");
+      const url = process.env[urlKey];
+      if (url) return { url, token };
+    }
+  }
+
+  // Fallback: scan ALL env vars for anything with "upstash.io" in the value
+  const allKeys = Object.keys(process.env);
+  for (const key of allKeys) {
+    const val = process.env[key] || "";
+    if (val.includes("upstash.io") && (key.includes("URL") || key.includes("url"))) {
+      const base = key.replace(/_?URL$/i, "");
+      const tokenKey = allKeys.find(
+        (k) => k.startsWith(base) && (k.includes("TOKEN") || k.includes("token"))
+      );
+      if (tokenKey && process.env[tokenKey]) {
+        return { url: val, token: process.env[tokenKey]! };
+      }
+    }
+  }
+
+  console.warn("[careers/admin] No Redis/Upstash credentials found.");
+  return null;
 }
 
 interface StoredApplication {
@@ -50,13 +77,13 @@ interface StoredApplication {
 }
 
 async function loadApplications(): Promise<StoredApplication[]> {
-  const { url, token } = getRedisCredentials();
+  const creds = getRedisCredentials();
 
-  if (url && token) {
+  if (creds) {
     try {
       // ── Production: read from Upstash Redis ────────────────────────────────
       const { Redis } = await import("@upstash/redis");
-      const redis = new Redis({ url, token });
+      const redis = new Redis({ url: creds.url, token: creds.token });
 
       // Get all application IDs
       const ids = (await redis.lrange("career:apps", 0, -1)) as string[];
