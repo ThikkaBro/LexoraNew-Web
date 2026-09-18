@@ -62,6 +62,16 @@ export function Nav() {
             ))}
           </ul>
           <a
+            href="/careers"
+            className="relative inline-flex items-center gap-2 rounded-sm text-[0.875rem] tracking-[-0.006em] text-muted transition-colors duration-150 hover:text-paper"
+          >
+            Careers
+            <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[0.625rem] font-medium uppercase tracking-widest text-accent">
+              <span className="h-1 w-1 rounded-full bg-accent animate-pulse" />
+              Hiring
+            </span>
+          </a>
+          <a
             href={siteConfig.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -106,11 +116,19 @@ export function Nav() {
             ))}
           </ul>
           <a
+            href="/careers"
+            onClick={() => setOpen(false)}
+            className="mt-8 flex h-12 items-center justify-center gap-3 rounded border border-accent/20 bg-accent/5 text-[0.9375rem] font-medium text-accent"
+          >
+            We&apos;re Hiring — Apply Now
+            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+          </a>
+          <a
             href={siteConfig.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
-            className="mt-8 flex h-12 items-center justify-center rounded bg-paper text-[0.9375rem] font-medium text-ink"
+            className="mt-3 flex h-12 items-center justify-center rounded bg-paper text-[0.9375rem] font-medium text-ink"
           >
             Book a 30-min call
           </a>
