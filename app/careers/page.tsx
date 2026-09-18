@@ -9,27 +9,42 @@ import { Footer } from "@/components/Footer";
 // ── Job data ────────────────────────────────────────────────────────────────
 const JOB = {
   title: "Marketing Specialist",
-  type: "Full-Time · On-site / Hybrid",
-  location: "Colombo, Sri Lanka",
+  type: "Full-Time · Remote",
+  location: "Remote — Worldwide",
   posted: "September 2026",
-  headline: "Shape Our Brand. Grow Our Reach. Drive The Future.",
+  headline: "Shape Our Brand. Launch Our Products. Drive The Future.",
   intro:
-    "We're looking for a creative, strategic, and results-driven marketer to join the LexoraTech team. You'll own our brand voice, grow our digital presence, and drive campaigns that connect us with clients worldwide.",
+    "LexoraTech is entering an exciting new chapter — we have multiple big products launching in the coming months and we need a creative force to bring them to the world. You won't just manage social media. You'll be the voice behind product launches, the brain behind campaigns, and the person who makes sure our work gets the attention it deserves — globally.",
+  whatsLaunching: [
+    "A next-generation AI-powered internal tools platform for agencies worldwide",
+    "A SaaS product targeting service businesses in the US, UK, and AU markets",
+    "New brand identity rollouts and client-facing campaign materials",
+    "LexoraTech's own public content presence — blogs, reels, LinkedIn thought leadership",
+  ],
   responsibilities: [
-    "Plan and execute multi-channel marketing campaigns (LinkedIn, Instagram, TikTok, YouTube)",
-    "Create compelling content — copy, visuals, and short-form video — that reflects LexoraTech's brand",
-    "Manage and grow our social media profiles with consistent, high-quality output",
-    "Analyze campaign performance and report on key metrics: reach, engagement, conversions",
-    "Develop and execute brand growth strategies to expand our global reach",
-    "Collaborate closely with the product and dev team to create launch materials",
+    "Own the go-to-market strategy for our upcoming product launches — from teaser to launch day",
+    "Create high-impact content — copy, carousels, short-form video, email sequences — across all channels",
+    "Build and manage our LinkedIn, Instagram, TikTok, and YouTube presence from the ground up",
+    "Design launch campaigns that generate real leads and measurable growth",
+    "Analyze performance data and continuously optimize — reach, engagement, conversions",
+    "Work directly with the founding team to shape LexoraTech's global brand story",
+    "Stay ahead of trends and bring fresh, creative ideas to every meeting",
   ],
   requirements: [
-    "2+ years of experience in digital marketing or a related role",
-    "Strong written communication skills in English",
-    "Experience with social media management and analytics tools",
-    "Creative eye for design and visual storytelling",
-    "Data-driven mindset with the ability to interpret marketing metrics",
-    "Ability to work independently and take ownership of projects",
+    "2+ years of experience in digital marketing, content creation, or brand strategy",
+    "Strong written English — you write copy that people actually want to read",
+    "Experience managing and growing social media accounts with real results to show",
+    "Creative eye — you can visualize a campaign before it exists",
+    "Comfortable working in a fast-paced startup environment where things move quickly",
+    "Bonus: experience with product launches, SaaS marketing, or B2B campaigns",
+  ],
+  perks: [
+    { emoji: "💰", label: "Competitive salary", detail: "Tell us what you’re looking for — we’re open" },
+    { emoji: "🌍", label: "Fully remote", detail: "Work from anywhere in the world" },
+    { emoji: "🚀", label: "Product launches", detail: "Be first on the ground for every release" },
+    { emoji: "📈", label: "Performance bonuses", detail: "Rewarded when campaigns hit targets" },
+    { emoji: "🧠", label: "Creative freedom", detail: "Your ideas will actually ship" },
+    { emoji: "⚡", label: "Fast-moving team", detail: "No bureaucracy — just build and grow" },
   ],
   skills: [
     { icon: BarChart2, label: "Digital Marketing" },
@@ -171,6 +186,27 @@ function ApplicationForm() {
           placeholder="Tell us why you'd be a great fit at LexoraTech — keep it real, not corporate."
           className="w-full resize-none rounded border border-line bg-surface px-4 py-2.5 text-sm text-paper placeholder:text-faint focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30 transition-colors"
         />
+      </div>
+
+      {/* Expected Salary */}
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="career-salary" className="t-micro text-muted">
+          Expected Salary <span className="text-accent">*</span>
+        </label>
+        <div className="relative">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-faint" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" />
+          </svg>
+          <input
+            id="career-salary"
+            name="expectedSalary"
+            type="text"
+            required
+            placeholder="e.g. LKR 80,000 / month or USD 800 / month"
+            className="w-full rounded border border-line bg-surface py-2.5 pl-9 pr-4 text-sm text-paper placeholder:text-faint focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30 transition-colors"
+          />
+        </div>
+        <p className="t-micro text-faint">Type exactly what you’re expecting — be specific.</p>
       </div>
 
       {/* CV Upload */}
@@ -350,6 +386,43 @@ export default function CareersPage() {
                       </li>
                     ))}
                   </ul>
+                </div>
+              </FadeUp>
+
+              {/* What&apos;s Launching */}
+              <FadeUp delay={0.1}>
+                <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
+                  <p className="t-micro mb-1 text-accent">🚀 What You&apos;ll Be Launching</p>
+                  <p className="t-small mb-4 text-muted">These are real projects in the pipeline. You&apos;ll be part of launching all of them.</p>
+                  <ul className="flex flex-col gap-3">
+                    {JOB.whatsLaunching.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="mt-0.5 text-accent">→</span>
+                        <span className="t-small text-paper">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeUp>
+
+              {/* Perks */}
+              <FadeUp delay={0.12}>
+                <div>
+                  <p className="t-micro mb-4 text-accent">What You&apos;ll Get</p>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {JOB.perks.map(({ emoji, label, detail }) => (
+                      <div
+                        key={label}
+                        className="flex items-start gap-3 rounded border border-line bg-raised px-4 py-3 lit-edge"
+                      >
+                        <span className="text-base leading-none mt-0.5">{emoji}</span>
+                        <div>
+                          <p className="t-small font-medium text-paper">{label}</p>
+                          <p className="t-micro mt-0.5 text-muted normal-case tracking-normal">{detail}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </FadeUp>
             </div>

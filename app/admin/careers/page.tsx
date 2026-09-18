@@ -9,6 +9,7 @@ interface Application {
   email: string;
   linkedin: string | null;
   coverNote: string | null;
+  expectedSalary: string | null;
   cvFileName: string | null;
   appliedAt: string;
 }
@@ -214,6 +215,14 @@ export default function AdminCareersPage() {
                         </a>
                       )}
                     </div>
+
+                    {/* Expected Salary */}
+                    {app.expectedSalary && (
+                      <div className="flex items-center gap-3 rounded border border-accent/20 bg-accent/5 px-4 py-2.5">
+                        <span className="t-micro text-accent">Expected Salary</span>
+                        <span className="t-small font-medium text-paper">{app.expectedSalary}</span>
+                      </div>
+                    )}
 
                     {/* Cover note */}
                     {app.coverNote && (

@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
     const email = formData.get("email") as string;
     const linkedin = formData.get("linkedin") as string;
     const coverNote = formData.get("coverNote") as string;
+    const expectedSalary = formData.get("expectedSalary") as string;
     const cvFile = formData.get("cv") as File | null;
 
     if (!name || !email) {
@@ -51,6 +52,7 @@ export async function POST(req: NextRequest) {
       email,
       linkedin: linkedin || null,
       coverNote: coverNote || null,
+      expectedSalary: expectedSalary || null,
       cvFileName: savedFileName,
       appliedAt: new Date().toISOString(),
     };
@@ -94,6 +96,10 @@ export async function POST(req: NextRequest) {
               ${linkedin ? `<tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: #8A8F98; font-size: 0.8125rem;">LinkedIn</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.875rem;"><a href="${linkedin}" style="color: #7EA6FF;" target="_blank">${linkedin}</a></td>
+              </tr>` : ""}
+              ${expectedSalary ? `<tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: #8A8F98; font-size: 0.8125rem;">Expected Salary</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.875rem; color: #7EA6FF; font-weight: 500;">${expectedSalary}</td>
               </tr>` : ""}
               <tr>
                 <td style="padding: 10px 0; color: #8A8F98; font-size: 0.8125rem;">Applied</td>
