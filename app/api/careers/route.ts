@@ -6,89 +6,146 @@ export const maxDuration = 30;
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// ── Storage helpers ──────────────────────────────────────────────────────────
-//
-// Strategy:
-//   Production (Vercel): CV file → Vercel Blob, metadata → Upstash Redis
-//   Local dev           : CV file → local disk,  metadata → local JSON file
-//
-// This lets you run locally without any cloud accounts, while the live site
-// persists everything permanently.
+// Helper to resolve Upstash / Redis credentials across any Vercel integration naming
+function getRedisCredentials(): { url?: string; token?: string } {
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.UPSTASH_REST_API_URL ||
+    process.env.UPSTASH_URL ||
+    process.env.KV_REST_API_URL ||
+    process.env.STORAGE_REST_API_URL ||
+    process.env.STORAGE_URL ||
+    process.env.REDIS_URL;
 
-async function saveFile(
-  buffer: Buffer,
-  fileName: string
-): Promise<string> {
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    // ── Vercel Blob (production) ────────────────────────────────────────────
-    const { put } = await import("@vercel/blob");
-    const blob = await put(`careers/${fileName}`, buffer, {
-      access: "private",
-      contentType: fileName.endsWith(".pdf")
-        ? "application/pdf"
-        : "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    });
-    return blob.url;
-  } else {
-    // ── Local filesystem fallback (dev) ────────────────────────────────────
-    const { writeFile, mkdir } = await import("fs/promises");
-    const dir = path.join(process.cwd(), "data", "applications");
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, fileName), buffer);
-    return `/api/careers/download?file=${encodeURIComponent(fileName)}`;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.UPSTASH_REST_API_TOKEN ||
+    process.env.UPSTASH_TOKEN ||
+    process.env.KV_REST_API_TOKEN ||
+    process.env.STORAGE_REST_API_TOKEN ||
+    process.env.STORAGE_TOKEN ||
+    process.env.REDIS_TOKEN;
+
+  if (url && token) {
+    return { url, token };
   }
+  return {};
 }
 
-async function saveApplication(application: object): Promise<void> {
-  if (
-    process.env.UPSTASH_REDIS_REST_URL &&
-    process.env.UPSTASH_REDIS_REST_TOKEN
-  ) {
-    // ── Upstash Redis (production) ─────────────────────────────────────────
-    const { Redis } = await import("@upstash/redis");
-    const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
-    const app = application as { id: string };
-    // Store each application as a hash, and track all IDs in a list
-    await redis.hset(`career:app:${app.id}`, application as Record<string, unknown>);
-    await redis.lpush("career:apps", app.id);
-  } else {
-    // ── Local JSON fallback (dev) ──────────────────────────────────────────
-    const { writeFile, mkdir, readFile } = await import("fs/promises");
-    const dir = path.join(process.cwd(), "data", "applications");
-    const indexFile = path.join(dir, "index.json");
-    await mkdir(dir, { recursive: true });
-    let index: object[] = [];
+// ── Resilient file storage ───────────────────────────────────────────────────
+// Saves CV to Vercel Blob in production, or local disk in development.
+// Never throws — fails gracefully so candidate application is never blocked.
+async function saveFile(buffer: Buffer, fileName: string): Promise<string | null> {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+
+  // 1. Try Vercel Blob (production cloud storage)
+  if (token) {
     try {
-      index = JSON.parse(await readFile(indexFile, "utf-8"));
-    } catch {
-      // first run — start fresh
+      const { put } = await import("@vercel/blob");
+      const blob = await put(`careers/${fileName}`, buffer, {
+        access: "public",
+        token,
+      });
+      console.log("[careers] CV uploaded to Vercel Blob:", blob.url);
+      return blob.url;
+    } catch (blobErr) {
+      console.error("[careers] Vercel Blob upload failed:", blobErr);
     }
-    index.push(application);
-    await writeFile(indexFile, JSON.stringify(index, null, 2));
+  } else {
+    console.warn("[careers] BLOB_READ_WRITE_TOKEN is not set in environment.");
   }
+
+  // 2. Local filesystem fallback (local dev only - serverless is read-only)
+  if (process.env.NODE_ENV !== "production") {
+    try {
+      const { writeFile, mkdir } = await import("fs/promises");
+      const dir = path.join(process.cwd(), "data", "applications");
+      await mkdir(dir, { recursive: true });
+      await writeFile(path.join(dir, fileName), buffer);
+      return `/api/careers/download?file=${encodeURIComponent(fileName)}`;
+    } catch (fsErr) {
+      console.error("[careers] Local filesystem save failed:", fsErr);
+    }
+  }
+
+  return null;
+}
+
+// ── Resilient metadata storage ────────────────────────────────────────────────
+// Saves applicant to Upstash Redis, or local JSON in development.
+// Never throws.
+async function saveApplication(application: Record<string, unknown>): Promise<boolean> {
+  const { url, token } = getRedisCredentials();
+
+  // 1. Try Upstash Redis (production database)
+  if (url && token) {
+    try {
+      const { Redis } = await import("@upstash/redis");
+      const redis = new Redis({ url, token });
+      const id = application.id as string;
+      await redis.hset(`career:app:${id}`, application);
+      await redis.lpush("career:apps", id);
+      console.log("[careers] Application saved to Upstash Redis, ID:", id);
+      return true;
+    } catch (redisErr) {
+      console.error("[careers] Upstash Redis save error:", redisErr);
+    }
+  } else {
+    console.warn("[careers] Upstash Redis credentials not detected in environment.");
+  }
+
+  // 2. Local JSON fallback (local dev only)
+  if (process.env.NODE_ENV !== "production") {
+    try {
+      const { writeFile, mkdir, readFile } = await import("fs/promises");
+      const dir = path.join(process.cwd(), "data", "applications");
+      const indexFile = path.join(dir, "index.json");
+      await mkdir(dir, { recursive: true });
+      let index: unknown[] = [];
+      try {
+        index = JSON.parse(await readFile(indexFile, "utf-8"));
+      } catch {
+        // First run
+      }
+      index.push(application);
+      await writeFile(indexFile, JSON.stringify(index, null, 2));
+      return true;
+    } catch (fsErr) {
+      console.error("[careers] Local JSON save failed:", fsErr);
+    }
+  }
+
+  return false;
 }
 
 // ── POST handler ─────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    // Guard: reject bodies over 10 MB
+    // Vercel serverless has a 4.5 MB request limit. Check content length early.
     const contentLength = req.headers.get("content-length");
-    if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+    if (contentLength && parseInt(contentLength, 10) > 4.5 * 1024 * 1024) {
       return NextResponse.json(
-        { error: "File too large. Please upload a CV under 10 MB." },
+        { error: "File size exceeds 4.5 MB limit. Please upload a smaller CV or compress your PDF." },
         { status: 413 }
       );
     }
 
-    const formData = await req.formData();
-    const name           = formData.get("name") as string;
-    const email          = formData.get("email") as string;
-    const linkedin       = formData.get("linkedin") as string;
-    const coverNote      = formData.get("coverNote") as string;
-    const expectedSalary = formData.get("expectedSalary") as string;
+    let formData: FormData;
+    try {
+      formData = await req.formData();
+    } catch (formErr) {
+      console.error("[careers] Failed to parse form data:", formErr);
+      return NextResponse.json(
+        { error: "Unable to process the uploaded form. If your CV file is large, please upload a smaller file." },
+        { status: 400 }
+      );
+    }
+
+    const name           = ((formData.get("name")           as string) || "").trim();
+    const email          = ((formData.get("email")          as string) || "").trim();
+    const linkedin       = ((formData.get("linkedin")       as string) || "").trim();
+    const coverNote      = ((formData.get("coverNote")      as string) || "").trim();
+    const expectedSalary = ((formData.get("expectedSalary") as string) || "").trim();
     const cvFile         = formData.get("cv") as File | null;
 
     if (!name || !email) {
@@ -98,86 +155,132 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Handle CV file ──────────────────────────────────────────────────────
-    let cvUrl: string | null = null;
+    // ── Handle CV upload ────────────────────────────────────────────────────
+    let cvUrl: string | null      = null;
     let cvFileName: string | null = null;
-    let cvBuffer: Buffer | null = null;
+    let cvBuffer: Buffer | null   = null;
 
     if (cvFile && cvFile.size > 0) {
-      const bytes = await cvFile.arrayBuffer();
-      cvBuffer = Buffer.from(bytes);
-      const ext = path.extname(cvFile.name) || ".pdf";
-      cvFileName = `${Date.now()}-${name.replace(/\s+/g, "_").toLowerCase()}${ext}`;
-      cvUrl = await saveFile(cvBuffer, cvFileName);
+      try {
+        const bytes = await cvFile.arrayBuffer();
+        cvBuffer = Buffer.from(bytes);
+        const originalName = cvFile.name || "resume.pdf";
+        const ext = path.extname(originalName) || ".pdf";
+        const sanitizedName = name.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+        cvFileName = `${Date.now()}-${sanitizedName}${ext}`;
+        cvUrl = await saveFile(cvBuffer, cvFileName);
+      } catch (cvErr) {
+        console.error("[careers] Error processing CV file buffer:", cvErr);
+      }
     }
 
     // ── Save application record ─────────────────────────────────────────────
-    const application = {
-      id:             Date.now().toString(),
+    const applicationId = Date.now().toString();
+    const application: Record<string, unknown> = {
+      id:             applicationId,
       name,
       email,
-      linkedin:       linkedin || null,
+      linkedin:       linkedin  || null,
       coverNote:      coverNote || null,
       expectedSalary: expectedSalary || null,
       cvFileName,
       cvUrl,
       appliedAt:      new Date().toISOString(),
     };
+
+    // Save metadata (never throws)
     await saveApplication(application);
 
-    // ── Send email via Resend ───────────────────────────────────────────────
-    const resendKey   = process.env.RESEND_API_KEY;
-    const primaryEmail = process.env.CAREERS_EMAIL   || "careers@lexoratech.com";
+    // ── Send email notification via Resend ──────────────────────────────────
+    const resendKey    = process.env.RESEND_API_KEY;
+    const primaryEmail = process.env.CAREERS_EMAIL    || "careers@lexoratech.com";
     const ccEmail      = process.env.CAREERS_CC_EMAIL || "hello@lexoratech.com";
 
     if (resendKey) {
-      const resend = new Resend(resendKey);
-      const attachments =
-        cvBuffer && cvFileName
+      try {
+        const resend = new Resend(resendKey);
+        const attachments = cvBuffer && cvFileName
           ? [{ filename: cvFileName, content: cvBuffer }]
           : [];
 
-      await resend.emails.send({
-        from: "LexoraTech Careers <careers@lexoratech.com>",
-        to: [primaryEmail, ccEmail],
-        subject: `New Application — Marketing Specialist: ${name}`,
-        html: `
-          <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;background:#08090A;color:#F7F8F8;padding:32px;border-radius:8px;">
+        const emailHtml = `
+          <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;background:#08090A;color:#F7F8F8;padding:32px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
             <div style="margin-bottom:24px;">
-              <h1 style="margin:0;font-size:1.25rem;letter-spacing:-0.02em;">New Job Application</h1>
-              <p style="margin:4px 0 0;color:#8A8F98;font-size:0.875rem;">Marketing Specialist — LexoraTech</p>
+              <span style="font-size:0.75rem;color:#7EA6FF;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;">LexoraTech Careers</span>
+              <h1 style="margin:6px 0 0;font-size:1.35rem;letter-spacing:-0.02em;color:#FFFFFF;">New Job Application</h1>
+              <p style="margin:4px 0 0;color:#8A8F98;font-size:0.875rem;">Role: Marketing Specialist</p>
             </div>
             <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
               <tr>
-                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;width:140px;">Name</td>
-                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;">${name}</td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;width:140px;">Applicant Name</td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;color:#F7F8F8;font-weight:500;">${name}</td>
               </tr>
               <tr>
-                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">Email</td>
-                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;"><a href="mailto:${email}" style="color:#7EA6FF;">${email}</a></td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">Email Address</td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;"><a href="mailto:${email}" style="color:#7EA6FF;text-decoration:none;">${email}</a></td>
               </tr>
-              ${linkedin ? `<tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">LinkedIn</td><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;"><a href="${linkedin}" style="color:#7EA6FF;" target="_blank">${linkedin}</a></td></tr>` : ""}
-              ${expectedSalary ? `<tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">Expected Salary</td><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;color:#7EA6FF;font-weight:500;">${expectedSalary}</td></tr>` : ""}
+              ${linkedin ? `<tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">LinkedIn</td><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;"><a href="${linkedin}" style="color:#7EA6FF;text-decoration:none;" target="_blank">${linkedin}</a></td></tr>` : ""}
+              ${expectedSalary ? `<tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">Expected Salary</td><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;color:#7EA6FF;font-weight:600;">${expectedSalary}</td></tr>` : ""}
               <tr>
-                <td style="padding:10px 0;color:#8A8F98;font-size:0.8125rem;">Applied</td>
-                <td style="padding:10px 0;font-size:0.875rem;">${new Date().toLocaleString("en-US", { dateStyle: "long", timeStyle: "short" })}</td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);color:#8A8F98;font-size:0.8125rem;">Applied At</td>
+                <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.875rem;color:#C1C7CD;">${new Date().toLocaleString("en-US", { dateStyle: "long", timeStyle: "short" })}</td>
               </tr>
+              ${cvUrl ? `<tr><td style="padding:10px 0;color:#8A8F98;font-size:0.8125rem;">CV Storage Link</td><td style="padding:10px 0;font-size:0.875rem;"><a href="${cvUrl}" style="color:#7EA6FF;" target="_blank">Open Uploaded CV</a></td></tr>` : ""}
             </table>
-            ${coverNote ? `<div style="background:#0D0E10;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:16px;margin-bottom:24px;"><p style="margin:0 0 8px;color:#8A8F98;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">Cover Note</p><p style="margin:0;font-size:0.875rem;line-height:1.65;white-space:pre-wrap;">${coverNote}</p></div>` : ""}
-            <p style="color:#8A8F98;font-size:0.8125rem;margin:0;">${cvFileName ? "📎 CV attached." : "No CV uploaded."}</p>
-            <div style="margin-top:32px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);">
-              <a href="https://lexoratech.com/admin/careers" style="font-size:0.8125rem;color:#7EA6FF;">View all applicants →</a>
+            ${coverNote ? `
+              <div style="background:#0D0E10;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:16px;margin-bottom:24px;">
+                <p style="margin:0 0 8px;color:#8A8F98;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;">Cover Note</p>
+                <p style="margin:0;font-size:0.875rem;line-height:1.65;white-space:pre-wrap;color:#D3D7DC;">${coverNote}</p>
+              </div>` : ""}
+            <div style="padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;">
+              <p style="color:#8A8F98;font-size:0.8125rem;margin:0;">${cvFileName ? `📎 Attached: ${cvFileName}` : "No file attached."}</p>
+              <a href="https://lexoratech.com/admin/careers" style="font-size:0.8125rem;color:#7EA6FF;text-decoration:none;font-weight:500;">Admin Dashboard →</a>
             </div>
-          </div>`,
-        attachments,
-      });
+          </div>
+        `;
+
+        // Try primary from address
+        try {
+          await resend.emails.send({
+            from: "LexoraTech Careers <careers@lexoratech.com>",
+            to: [primaryEmail, ccEmail],
+            subject: `New Application — Marketing Specialist: ${name}`,
+            html: emailHtml,
+            attachments,
+          });
+          console.log("[careers] Notification email successfully sent via careers@lexoratech.com");
+        } catch (domainErr) {
+          // If custom domain is not yet verified in Resend, fall back to onboarding@resend.dev
+          console.warn("[careers] Custom domain send failed, trying onboarding@resend.dev fallback:", domainErr);
+          await resend.emails.send({
+            from: "LexoraTech Careers <onboarding@resend.dev>",
+            to: [primaryEmail],
+            subject: `New Application — Marketing Specialist: ${name}`,
+            html: emailHtml,
+            attachments,
+          });
+          console.log("[careers] Notification email sent via onboarding@resend.dev");
+        }
+      } catch (emailErr) {
+        // Never let email failure abort the applicant's submission
+        console.error("[careers] Email notification failed (data was still preserved):", emailErr);
+      }
+    } else {
+      console.log("[careers] RESEND_API_KEY is not configured — skipping email dispatch");
     }
 
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("[careers/route] error:", err);
+    // ── Success response ────────────────────────────────────────────────────
+    return NextResponse.json({
+      success: true,
+      id: applicationId,
+      cvSaved: Boolean(cvUrl),
+    });
+
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "An unexpected server error occurred.";
+    console.error("[careers] Unhandled error during career application processing:", err);
     return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
+      { error: `Unable to submit application: ${message}` },
       { status: 500 }
     );
   }

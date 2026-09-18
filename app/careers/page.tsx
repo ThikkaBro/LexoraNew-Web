@@ -77,6 +77,25 @@ function ApplicationForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setFileName(null);
+      return;
+    }
+    // Vercel Serverless Function limit is 4.5 MB
+    if (file.size > 4.5 * 1024 * 1024) {
+      setErrorMsg("File is too large (maximum 4.5 MB). Please compress your PDF or upload a smaller file.");
+      setStatus("error");
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setFileName(null);
+      return;
+    }
+    setErrorMsg("");
+    if (status === "error") setStatus("idle");
+    setFileName(file.name);
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
@@ -87,12 +106,14 @@ function ApplicationForm() {
 
     try {
       const res = await fetch("/api/careers", { method: "POST", body: fd });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Unknown error");
+      const json = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error(json?.error || `Submission failed (${res.status}). Please try again.`);
+      }
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
   }
 
@@ -235,7 +256,7 @@ function ApplicationForm() {
           name="cv"
           accept=".pdf,.doc,.docx"
           className="hidden"
-          onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
+          onChange={handleFileChange}
         />
       </div>
 

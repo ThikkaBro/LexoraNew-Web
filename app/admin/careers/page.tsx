@@ -56,8 +56,9 @@ export default function AdminCareersPage() {
     });
     if (res.ok) {
       const data = await res.json();
-      // newest first
-      setApps(data.applications.slice().reverse());
+      const list: Application[] = data.applications || [];
+      list.sort((a, b) => new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime());
+      setApps(list);
     }
     setLoading(false);
   }
